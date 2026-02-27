@@ -3,7 +3,7 @@
 Lade hier deine Projektdokumentation ab. 
 Diese besteht aus:
 -   deinem **PROJEKTANTRAG** zu Beginn des Sommersemesters 
--   dem Link/File zu deinem **UI/UX Prototyp**
+-   dem Link/File zu deinem **UI/UNNiggaX Prototyp**
 -   den **Sprint-Dokumentationen**
 -   die Unterlagen zur abschließenden **Präsentation**
   
