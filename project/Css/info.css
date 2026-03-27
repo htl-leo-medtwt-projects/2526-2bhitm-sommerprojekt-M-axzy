@@ -1,0 +1,32 @@
+/*==============================================
+============ Html Startseite design ============
+/*=============================================*/
+body{
+margin: 0;
+padding: 0;
+height: 100vh;
+width: 100vw;
+}
+
+/*==============================================
+===============  Html Seite   ==================
+/*=============================================*/
+#Introduction{
+    height: 100vh;
+    width: 100vw;
+}
+
+/*==============================================
+==========  Html Buttons Infoseite  ============
+/*=============================================*/
+#buttonWeiter{
+    height: 45vh;
+    width: 35vw;
+    position: absolute; 
+    z-index: 100;
+    top: 93%;           
+    right: -20%;         
+    transform: translate(-50%, -50%);     
+    -webkit-user-drag: none; 
+    user-select: none;
+}

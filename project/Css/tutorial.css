@@ -1,0 +1,28 @@
+/*==============================================
+============ Html Startseite design ============
+/*=============================================*/
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;  
+    height: 100vh; 
+    background-image: url('../Img/Spielhintergrund.jpeg'); 
+    background-size: cover;       
+    background-position: center;  
+    background-repeat: no-repeat; 
+    overflow: hidden;
+    position: relative;
+}
+
+.Tutorial {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.Tutorial.active {
+  display: block;
+}

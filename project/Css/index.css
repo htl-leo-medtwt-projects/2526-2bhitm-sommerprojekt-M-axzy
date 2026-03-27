@@ -1,0 +1,87 @@
+/*==============================================
+============ Html Startseite design ============
+/*=============================================*/
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;  
+    height: 100vh; 
+    background-image: url('../Img/Spielhintergrund.jpeg'); 
+    background-size: cover;       
+    background-position: center;  
+    background-repeat: no-repeat; 
+    overflow: hidden;
+}
+
+/*==============================================
+===============  Html Seite   ==================
+/*=============================================*/
+#main{
+    width: 100vw;
+    height: 100vh;
+    position: relative; 
+}
+
+#hintergrund{
+    width: 100vw;
+    height: 100vh;
+    position: absolute; 
+    z-index: -200;
+    top: 0;             
+    left: 0;            
+    user-select: none;     
+    -webkit-user-drag: none; 
+    -moz-user-select: none;  
+    -ms-user-select: none;   
+}
+
+/*==============================================
+==========  Html Buttons Startseite  ===========
+/*=============================================*/
+#Tutorial {
+    height: 40vh;
+    width: 35vw;
+    position: absolute; 
+    z-index: 100;
+    top: 63%;           
+    left: 23%;         
+    transform: translate(-50%, -50%); 
+    user-select: none;      
+    -webkit-user-drag: none;   
+}
+
+#Info{
+    height: 45vh;
+    width: 35vw;
+    position: absolute; 
+    z-index: 100;
+    top: 63%;           
+    right: -13%;         
+    transform: translate(-50%, -50%);     
+    -webkit-user-drag: none; 
+    user-select: none;
+}
+
+#Logo{
+    height: 65vh;
+    width: 55vw;
+    position: absolute;
+    z-index: 0; 
+    top: 30%;           
+    left: 50%;         
+    transform: translate(-50%, -50%); 
+    user-select: none;      
+    -webkit-user-drag: none; 
+}
+
+#Play-Button{
+    height: 45vh;
+    width: 35vw;
+    position: absolute; 
+    z-index: 100;
+    top: 70%;           
+    right: 13%;         
+    transform: translate(-50%, -50%); 
+    user-select: none;      
+    -webkit-user-drag: none; 
+}
