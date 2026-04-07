@@ -3,19 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tutorial</title>
+    <title>Document</title>
     <link rel="stylesheet" href="../Css/tutorial.css">
     <script src="../Js/Tutorial.js" defer></script>
 </head>
 <body>
-    <section class="Tutorial">
-
-
-
-
-
-
+   <section class="stage active" id="stage-1">
+        <img src="../Img/Spielfläche.png" alt="" id="spielflaeche">
+        <img src="../Img/Direktor.png" alt="" id="direktor">
+        <img src="../Img/Smellbar.png" alt="" id="smellbar">
+        <img src="../Img/Weiter.png" class="next-btn" alt="">
         
+        <div id="text">
+           <p>Das hier drüber ist die Smellbar <br>   
+            und daneben das Spielfeld wo du <br> 
+            die Pflanzen und Resourcen <br>
+            pflanzen kannst die du gekauft hast</p>
+        </div>
+
+        <div id="text2">
+            <p>Drücke Weiter um dir den Shop anzusehen</p>
+        </div>
+   </section>
+
+   <section class="stage" id="stage-2">
+    <img src="../Img/Direktor.png" alt="" id="direktor">
+
+    <div id="text">
+        <p>Hier im Shop kannst du neue <br>   
+        Samen und Upgrades kaufen, <br> 
+        sobald du genug Coins hast!</p>
+    </div>
+
+    <div id="text2">
+        <p>Scrollen -></p>
+    </div>
+
+    <div id="shop-container">
+        <div class="shop-header">
+            <img src="../Img/Shop.png" alt="Shop Logo" class="shop-logo">
+            <div class="shop-tabs">
+                <img src="../Img/Kaufen.png" class="tab-img active" alt="Kaufen">
+                <img src="../Img/Verkaufen.png" class="tab-img" alt="Verkaufen">
+            </div>
+        </div>
+
+        <div class="shop-content">
+            <div class="shop-level-row">
+               <div class="level-assets">
+                    <div class="level-details"> 
+                        <img src="../Img/Stufe1.png" class="asset-label">
+                        <img src="../Img/1000Coins.png" class="asset-coins">
+                    </div>
+                    
+                    <img src="../Img/Schlüssel.png" class="asset-lock"> 
+                </div>
+                <div class="item-placeholder">Hier kommen die Items hin.</div>
+            </div>
+
+            <div class="shop-level-row">
+              <div class="level-assets">
+                    <div class="level-details"> 
+                        <img src="../Img/Stufe2.png" class="asset-label">
+                        <img src="../Img/3000Coins.png" class="asset-coins">
+                    </div>
+                    
+                    <img src="../Img/Schlüssel.png" class="asset-lock"> 
+                </div>
+                <div class="item-placeholder">Hier kommen die Items hin.</div>
+            </div>
+
+            <div class="shop-level-row">
+               <div class="level-assets">
+                    <div class="level-details"> 
+                        <img src="../Img/Stufe3.png" class="asset-label">
+                        <img src="../Img/5000Coins.png" class="asset-coins">
+                    </div>
+                    
+                    <img src="../Img/Schlüssel.png" class="asset-lock"> 
+                </div>
+                <div class="item-placeholder">Hier kommen die Items hin.</div>
+            </div>
+        </div>
+    </div>
+
+    <img src="../Img/Weiter.png" alt="Weiter" class="next-btn">
+    </section>
+
+    <section class="stage" id="stage-3">
+        <img src="../Img/Spielfläche.png" alt="" id="spielflaeche">
+        <img src="../Img/Smellbar.png" alt="" id="smellbar">
+    
+        <div id="shop-container">
+            <div class="shop-header">
+                <img src="../Img/Shop.png" alt="Shop Logo" class="shop-logo">
+                <div class="shop-tabs">
+                    <img src="../Img/Kaufen.png" class="tab-img active" alt="Kaufen">
+                    <img src="../Img/Verkaufen.png" class="tab-img" alt="Verkaufen">
+                </div>
+            </div>
+
+            <div id="text">
+                <p>Hier demonstriere ich das Verkaufen <br> System. 
+                Drücke auf Verkaufen <br>
+                Du willst nicht verkaufen? <br>
+                dann drücke weiter um den <br>
+                verloren Screen zu sehen</p>
+            </div>
+        </div>
+
+        <img src="../Img/Weiter.png" class="next-btn" alt="">
+
+    </section>
+
+    <section class="stage" id="stage4">
+        <img src="../Img/Willst du kaufen.png" id="willstVerkaufen" alt="">
+        <img src="../Img/Nein Kaufen.png" id="neinKaufen" alt="">
+        <img src="../Img/Ja Kaufen.png" id="jaKaufen" alt="">
+
+        <p id="nummer4">Das ist der Verkaufscreen, hier entscheidest du </p>
+
+    </section>
+
+     <section class="stage" id="stage5">
+        <img src="../Img/Verkauft screen.png " id="VerkauftLogo" alt="">
+        <img src="../Img/Zurück zum Spiel.png " id="zrk" alt="">
+       
+
+        <p id="nummer5">Perfekt du hast deine Items verkauft und Münzen dafür bekommen</p>
+
+    </section>
+
+    <section class="stage" id="stage6">
+        <img src="../Img/Direktor.png " id="direktor" alt="">
+       
+
+        <p id="direktorText">So Junger Mann/Frau! <br> Jetzt ist aus mit dem Spiel. <br> Weg werfen und mit kommen!</p>
+
+        <img src="../Img/Weiter.png" class="next-btn" alt="">
     </section>
 </body>
 </html>

@@ -1,6 +1,6 @@
 /*==============================================
-============ Html Startseite design ============
-/*=============================================*/
+========== Html Start Tutorial design ==========
+==============================================*/
 html, body {
     margin: 0;
     padding: 0;
@@ -11,18 +11,430 @@ html, body {
     background-position: center;  
     background-repeat: no-repeat; 
     overflow: hidden;
+}
+
+.stage {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 0;
+    display: none; 
+}
+
+.stage.active {
+    display: block;
+}
+
+/*==============================================
+================ Html UI design ================
+==============================================*/
+
+#stage-1 #spielflaeche {
+    height: 70vh;
+    width: 70vw;
+    position: relative;
+    z-index: 100;
+    left: 40%;
+    top: 20%;
+}
+
+#stage-1 #direktor {
+    height: 100vh;
+    width: 80vw;
+    position: absolute;
+    z-index: 100;
+    right: 37%;
+    top: 10%;
+}
+
+#stage-1 #text {
+    height: 20vh;
+    width: 40vw;
+    font-size: 190%;
+    color: white;
+    position: absolute;
+    left: 23%;
+    top: 20%;
+    z-index: 200; 
+}
+
+#stage-1 #smellbar{
+    height: 60vh;
+    width: 60vw;
+    position: absolute;
+    bottom: 63%;
+    right: 3%;
+    z-index: 105; 
+}
+
+.next-btn {
+    opacity: 0;
+    transition: opacity 1s ease-in-out; 
+    pointer-events: none; 
+    cursor: pointer;
+}
+
+#stage-1 .next-btn {
+    height: 50vh;
+    width: 50vw;
+    position: absolute;
+    bottom: -15%;
+    left: 50%;
+    z-index: 300;
+}
+
+#stage-1 #text2 {
+    height: 20vh;
+    width: 50vw;
+    font-size: 190%;
+    color: white;
+    position: absolute;
+    left: 10%;
+    top: 80%;
+    z-index: 200; 
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+#text2.visible, .next-btn.visible {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+/*==============================================
+============= Stage 2 (Shop) Design ============
+==============================================*/
+
+#stage-2 #direktor {
+    height: 100vh;
+    width: 80vw;
+    position: absolute;
+    z-index: 100;
+    right: 37%;
+    top: 10%;
+}
+
+#stage-2 #text {
+    height: 40vh;
+    width: 40vw;
+    font-size: 240%;
+    color: white;
+    position: absolute;
+    left: 23%;
+    top: 20%;
+    z-index: 200; 
+}
+
+#stage-2 #text2 {
+    height: 20vh;
+    width: 50vw;
+    font-size: 190%;
+    color: white;
+    position: absolute;
+    left: 50%;
+    top: 60%;
+    z-index: 200; 
+    opacity: 0; 
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+}
+
+#stage-2 #shop-container {
+    height: 85vh; 
+    width: 40vw;
+    position: absolute;
+    z-index: 150;
+    left: 57%;
+    top: 7%;
+    background-color: #5d4037; 
+    border: 6px solid #3e2723;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+#stage-2 .next-btn {
+    height: 50vh;
+    width: 50vw;
+    position: absolute;
+    bottom: -15%;
+    left: 50%;
+    z-index: 999; 
+}
+
+.shop-header {
+    background-color: #4e342e;
+    border-bottom: 4px solid #3e2723;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.shop-logo { height: 15vh; width: auto; margin-bottom: -10px; }
+.shop-tabs { display: flex; gap: 10px; }
+.tab-img { height: 10vh; width: auto; cursor: pointer; }
+
+.shop-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.shop-level-row {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     position: relative;
 }
 
-.Tutorial {
-  display: none;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
+.level-assets {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100px;
 }
 
-.Tutorial.active {
-  display: block;
+.level-details {
+    display: flex;
+    flex-direction: row; 
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    z-index: 10;
+}
+
+.asset-label { height: 70px; width: auto; }
+.asset-coins { height: 60px; width: auto; }
+
+.asset-lock { 
+    height: 80px; 
+    width: auto; 
+    position: absolute;
+    z-index: 300;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.item-placeholder {
+    color: #d7ccc8;
+    text-align: center;
+    font-family: sans-serif;
+    font-style: italic;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    width: 100%;
+    margin-top: 10px;
+}
+
+.tab-img.active {
+    outline: 4px solid #ffd700; 
+    outline-offset: 2px;
+    border-radius: 5px;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); 
+    transform: scale(1.05); 
+    transition: all 0.3s ease-in-out;
+    background-color: rgba(255, 215, 0, 0.2);
+}
+
+/*==============================================
+============= Stage 3 (Shop Sidebar) ===========
+==============================================*/
+
+#stage-3 #spielflaeche {
+    height: 70vh;
+    width: 70vw;
+    position: absolute;
+    z-index: 100;
+    left: 40%;
+    top: 20%;
+}
+
+#stage-3 #smellbar {
+    height: 60vh;
+    width: 60vw;
+    position: absolute;
+    bottom: 63%;
+    right: 3%;
+    z-index: 105;
+}
+
+#stage-3 #shop-container {
+    height: 100vh; 
+    width: 38vw;
+    position: absolute;
+    z-index: 150;
+    left: 0;
+    top: 0;
+    background-color: rgba(62, 39, 35, 0.95); 
+    border-right: 6px solid #3e2723;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+#stage-3 #text {
+    width: 90%;
+    margin: 30px auto;
+    font-size: 1.6rem;
+    color: white;
+    text-align: center;
+}
+
+#stage-3 .next-btn {
+    height: 50vh;
+    width: 50vw;
+    position: absolute;
+    bottom: -15%;
+    left: 50%;
+    z-index: 300;
+    opacity: 1 !important;         
+    pointer-events: auto !important;  
+    transition: none !important;      
+}
+/*==============================================
+=========== Stage 4 (Verkaufen Screen) =========
+==============================================*/
+
+#stage4 {
+    width: 100%;
+    height: 100%;
+    position: relative; 
+    z-index: 500;
+}
+
+#willstVerkaufen {
+    height: 65vh;
+    width: auto;
+    position: absolute; 
+    top: -5%;           
+    left: 25%;          
+    z-index: 100;
+}
+
+#neinKaufen {
+    height: 40vh;
+    width: auto;
+    position: absolute; 
+    top: 50%;           
+    left: 60%;          
+    cursor: pointer;    
+    transition: transform 0.2s ease; 
+}
+
+#jaKaufen {
+    height: 40vh;
+    width: auto;
+    position: absolute; 
+    top: 50%;           
+    left: 15%;          
+    cursor: pointer;    
+    transition: transform 0.2s ease;
+}
+
+#nummer4{
+    font-size: 40px;
+    color: white;
+    position: relative;
+    top: 85%;
+    left: 23%;
+}
+
+#neinKaufen:hover, #jaKaufen:hover {
+    transform: scale(1.1);
+}
+
+/*==============================================
+=========== Stage 5 (Verkauft Screen) ==========
+==============================================*/
+
+#stage5 {
+    width: 100%;
+    height: 100%;
+    position: relative; 
+    z-index: 500;
+}
+
+#VerkauftLogo {
+    height: 80vh;
+    width: auto;
+    position: absolute; 
+    top: -10%;           
+    left: 18%;          
+    z-index: 100;
+}
+
+#zrk {
+    height: 70vh;
+    width: auto;
+    position: absolute; 
+    top: 30%;           
+    left: 23%;          
+    cursor: pointer;    
+}
+
+#nummer5{
+    font-size: 40px;
+    color: white;
+    position: relative;
+    top: 85%;
+    left: 10%;
+}
+
+/*==============================================
+=========== Stage 6 (Verloren Screen) ==========
+==============================================*/
+
+#stage6 {
+    width: 100%;
+    height: 100%;
+    position: relative; 
+    z-index: 500;
+}
+
+#stage6 #direktor {
+    height: 110vh;
+    width: auto;
+    position: absolute; 
+    top: -10%;           
+    left: 6%;          
+    z-index: 100;
+}
+
+#stage6 #direktorText {
+    font-size: 40px;
+    color: white;
+    position: absolute; 
+    top: 5%;
+    left: 53%;
+    width: 40%;
+    z-index: 200;
+}
+
+#stage6 .next-btn {
+    position: absolute;
+    height: 60vh;
+    width: auto;
+    bottom: -10%;
+    right: -5%;
+    z-index: 999;
+    opacity: 0; 
+    transition: opacity 1s ease-in-out;
+    pointer-events: none;
+    cursor: pointer;
+}
+
+#stage6 .next-btn.visible {
+    opacity: 1 !important;
+    pointer-events: auto !important;
 }
