@@ -22,7 +22,7 @@ html, body {
     position: absolute;
     z-index: 100;
     left: 40%;
-    top: 20%;
+    top: 60%;
 }
 
 #smellbar {
@@ -43,7 +43,7 @@ html, body {
     position: absolute;
     z-index: 100;
     left: 70%;
-    top: 50%;
+    top: 60%; 
     transform: translate(-50%, -50%); 
 }
 
@@ -55,10 +55,10 @@ html, body {
 
 #grid-overlay {
     position: absolute;
-    top: 17.5%;    
-    right: 29%;    
-    width: 45%;    
-    height: 60%; 
+    top: 16%;    
+    right: 28.7%;    
+    width: 46%;    
+    height: 63%; 
     display: grid;
     grid-template-columns: repeat(9, 1fr); 
     grid-template-rows: repeat(8, 1fr);    
@@ -66,10 +66,20 @@ html, body {
 }
 
 .grid-field {
-    outline: 1px solid rgba(255, 0, 0, 0.3); 
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.grid-field:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.grid-field img {
+    width: 80%;
+    height: auto;
 }
 
 
@@ -176,16 +186,8 @@ html, body {
 }
 
 /*==============================================
-=========== Stage 4 (Verkaufen Screen) =========
+================ Verkaufen Screen ==============
 ==============================================*/
-
-#stage4 {
-    width: 100%;
-    height: 100%;
-    position: relative; 
-    z-index: 500;
-}
-
 #willstVerkaufen {
     height: 65vh;
     width: auto;
@@ -215,29 +217,13 @@ html, body {
     transition: transform 0.2s ease;
 }
 
-#nummer4{
-    font-size: 40px;
-    color: white;
-    position: relative;
-    top: 85%;
-    left: 23%;
-}
-
 #neinKaufen:hover, #jaKaufen:hover {
     transform: scale(1.1);
 }
 
 /*==============================================
-=========== Stage 5 (Verkauft Screen) ==========
+================ Verkauft Screen ===============
 ==============================================*/
-
-#stage5 {
-    width: 100%;
-    height: 100%;
-    position: relative; 
-    z-index: 500;
-}
-
 #VerkauftLogo {
     height: 80vh;
     width: auto;
@@ -251,7 +237,7 @@ html, body {
     height: 70vh;
     width: auto;
     position: absolute; 
-    top: 30%;           
+    top: 40%;           
     left: 23%;          
     cursor: pointer;    
 }
@@ -270,7 +256,7 @@ html, body {
 ==============================================*/
 #inventory {
     position: absolute;
-    bottom: 10px;
+    bottom: 30px;
     right: 5%; 
     left: auto;
     transform: none; 
@@ -285,7 +271,7 @@ html, body {
 
 .slot {
     width: 55px; 
-    height: 55px;
+    height: 40px;
     background: #8d6e63;
     border: 2px solid #3e2723;
     border-radius: 6px;
@@ -304,4 +290,33 @@ html, body {
 .slot img {
     width: 75%;
     height: auto;
+}
+/*==============================================
+=========== Html Coinsanzeige design ===========
+==============================================*/
+#coins-container {
+    position: absolute;
+    left: 48%;   
+    bottom: 60%; 
+    width: 30vw; 
+    height: auto;
+    z-index: 150;
+    display: flex;
+}
+
+#coins-container img {  
+    width: 100%;  
+    height: auto;
+    display: block;
+}
+
+#coin-count {
+    position: absolute;
+    top: 37.5%;
+    right: 15%;
+    font-family: Arial, sans-serif; 
+    font-weight: bold;
+    font-size: 3.5vw;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5); 
 }
