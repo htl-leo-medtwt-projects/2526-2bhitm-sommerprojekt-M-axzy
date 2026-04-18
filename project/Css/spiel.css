@@ -1,15 +1,16 @@
 /*==============================================
 ========= Html Spiel Hintergrund design ========
 ==============================================*/
-html, body {
+html,
+body {
     margin: 0;
     padding: 0;
-    width: 100vw;  
-    height: 100vh; 
-    background-image: url('../Img/Spielhintergrund.jpeg'); 
-    background-size: cover;       
-    background-position: center;  
-    background-repeat: no-repeat; 
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../Img/Spielhintergrund.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     overflow: hidden;
 }
 
@@ -31,7 +32,7 @@ html, body {
     position: absolute;
     bottom: 63%;
     right: 3%;
-    z-index: 105; 
+    z-index: 105;
 }
 
 /*==============================================
@@ -39,12 +40,12 @@ html, body {
 ==============================================*/
 #spielflaeche {
     height: 75vh;
-    aspect-ratio: 1.1 / 1; 
+    aspect-ratio: 1.1 / 1;
     position: absolute;
     z-index: 100;
     left: 70%;
-    top: 60%; 
-    transform: translate(-50%, -50%); 
+    top: 60%;
+    transform: translate(-50%, -50%);
 }
 
 #spielflaeche img {
@@ -55,13 +56,13 @@ html, body {
 
 #grid-overlay {
     position: absolute;
-    top: 16%;    
-    right: 28.7%;    
-    width: 46%;    
-    height: 63%; 
+    top: 16%;
+    right: 28.7%;
+    width: 46%;
+    height: 63%;
     display: grid;
-    grid-template-columns: repeat(9, 1fr); 
-    grid-template-rows: repeat(8, 1fr);    
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(8, 1fr);
     z-index: 110;
 }
 
@@ -87,13 +88,13 @@ html, body {
 =============== Html Shop design ===============
 ==============================================*/
 #shop-container {
-    height: 85vh;       
-    width: 38vw; 
+    height: 85vh;
+    width: 38vw;
     position: absolute;
     z-index: 150;
-    left: 0.5%;         
-    top: 15%;          
-    background-color: #5d4037; 
+    left: 0.5%;
+    top: 15%;
+    background-color: #5d4037;
     border: 6px solid #3e2723;
     border-radius: 20px;
     display: flex;
@@ -111,9 +112,22 @@ html, body {
     padding: 10px 0;
 }
 
-.shop-logo { height: 15vh; width: auto; margin-bottom: -10px; }
-.shop-tabs { display: flex; gap: 10px; }
-.tab-img { height: 10vh; width: auto; cursor: pointer; }
+.shop-logo {
+    height: 15vh;
+    width: auto;
+    margin-bottom: -10px;
+}
+
+.shop-tabs {
+    display: flex;
+    gap: 10px;
+}
+
+.tab-img {
+    height: 10vh;
+    width: auto;
+    cursor: pointer;
+}
 
 .shop-content {
     flex: 1;
@@ -143,19 +157,26 @@ html, body {
 
 .level-details {
     display: flex;
-    flex-direction: row; 
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     gap: 40px;
     z-index: 10;
 }
 
-.asset-label { height: 70px; width: auto; }
-.asset-coins { height: 60px; width: auto; }
+.asset-label {
+    height: 70px;
+    width: auto;
+}
 
-.asset-lock { 
-    height: 80px; 
-    width: auto; 
+.asset-coins {
+    height: 60px;
+    width: auto;
+}
+
+.asset-lock {
+    height: 80px;
+    width: auto;
     position: absolute;
     z-index: 300;
     left: 50%;
@@ -170,17 +191,17 @@ html, body {
     font-family: sans-serif;
     font-style: italic;
     padding-top: 15px;
-    border-top: 1px solid rgba(255,255,255,0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     width: 100%;
     margin-top: 10px;
 }
 
 .tab-img.active {
-    outline: 4px solid #ffd700; 
+    outline: 4px solid #ffd700;
     outline-offset: 2px;
     border-radius: 5px;
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); 
-    transform: scale(1.05); 
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+    transform: scale(1.05);
     transition: all 0.3s ease-in-out;
     background-color: rgba(255, 215, 0, 0.2);
 }
@@ -191,33 +212,34 @@ html, body {
 #willstVerkaufen {
     height: 65vh;
     width: auto;
-    position: absolute; 
-    top: -5%;           
-    left: 25%;          
+    position: absolute;
+    top: -5%;
+    left: 25%;
     z-index: 100;
 }
 
 #neinKaufen {
     height: 40vh;
     width: auto;
-    position: absolute; 
-    top: 50%;           
-    left: 60%;          
-    cursor: pointer;    
-    transition: transform 0.2s ease; 
+    position: absolute;
+    top: 50%;
+    left: 60%;
+    cursor: pointer;
+    transition: transform 0.2s ease;
 }
 
 #jaKaufen {
     height: 40vh;
     width: auto;
-    position: absolute; 
-    top: 50%;           
-    left: 15%;          
-    cursor: pointer;    
+    position: absolute;
+    top: 50%;
+    left: 15%;
+    cursor: pointer;
     transition: transform 0.2s ease;
 }
 
-#neinKaufen:hover, #jaKaufen:hover {
+#neinKaufen:hover,
+#jaKaufen:hover {
     transform: scale(1.1);
 }
 
@@ -227,22 +249,22 @@ html, body {
 #VerkauftLogo {
     height: 80vh;
     width: auto;
-    position: absolute; 
-    top: -10%;           
-    left: 18%;          
+    position: absolute;
+    top: -10%;
+    left: 18%;
     z-index: 100;
 }
 
 #zrk {
     height: 70vh;
     width: auto;
-    position: absolute; 
-    top: 40%;           
-    left: 23%;          
-    cursor: pointer;    
+    position: absolute;
+    top: 40%;
+    left: 23%;
+    cursor: pointer;
 }
 
-#nummer5{
+#nummer5 {
     font-size: 40px;
     color: white;
     position: relative;
@@ -257,9 +279,9 @@ html, body {
 #inventory {
     position: absolute;
     bottom: 30px;
-    right: 5%; 
+    right: 5%;
     left: auto;
-    transform: none; 
+    transform: none;
     display: flex;
     gap: 6px;
     background: rgba(62, 39, 35, 0.8);
@@ -270,7 +292,7 @@ html, body {
 }
 
 .slot {
-    width: 55px; 
+    width: 55px;
     height: 40px;
     background: #8d6e63;
     border: 2px solid #3e2723;
@@ -291,21 +313,22 @@ html, body {
     width: 75%;
     height: auto;
 }
+
 /*==============================================
 =========== Html Coinsanzeige design ===========
 ==============================================*/
 #coins-container {
     position: absolute;
-    left: 48%;   
-    bottom: 60%; 
-    width: 30vw; 
+    left: 48%;
+    bottom: 60%;
+    width: 30vw;
     height: auto;
     z-index: 150;
     display: flex;
 }
 
-#coins-container img {  
-    width: 100%;  
+#coins-container img {
+    width: 100%;
     height: auto;
     display: block;
 }
@@ -314,9 +337,9 @@ html, body {
     position: absolute;
     top: 37.5%;
     right: 15%;
-    font-family: Arial, sans-serif; 
+    font-family: Arial, sans-serif;
     font-weight: bold;
     font-size: 3.5vw;
     color: white;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5); 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }

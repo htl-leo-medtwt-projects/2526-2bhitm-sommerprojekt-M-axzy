@@ -14,8 +14,8 @@ if (grid) {
     for (let i = 1; i <= 72; i++) {
         const feld = document.createElement('div');
         feld.classList.add('grid-field');
-        
-        feld.onclick = function() {
+
+        feld.onclick = function () {
             if (feld.innerHTML === "") {
                 const bild = document.createElement('img');
                 bild.src = "../Img/item_stufe1.png";

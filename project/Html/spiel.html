@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,97 +9,99 @@
     <script src="../Js/Spiel.js" defer></script>
 
 </head>
+
 <body>
-            <!-- Das hier ist die Spielfläche -->
-            <div id="spielflaeche">
-                <img src="../Img/Spielfläche.png" alt="" style="width: 100%; height: 100%;">
-                <div id="grid-overlay"></div>
-            </div>
-            <!-- Das ist der Coins-Container für die Anzeige -->
-            <div id="coins-container">
-                <img src="../Img/Coins.png" alt="Coins Background">
-                <span id="coin-count">1000</span>
-            </div>
+    <!-- Das hier ist die Spielfläche -->
+    <div id="spielflaeche">
+        <img src="../Img/Spielfläche.png" alt="" style="width: 100%; height: 100%;">
+        <div id="grid-overlay"></div>
+    </div>
+    <!-- Das ist der Coins-Container für die Anzeige -->
+    <div id="coins-container">
+        <img src="../Img/Coins.png" alt="Coins Background">
+        <span id="coin-count">1000</span>
+    </div>
 
-            <!-- Das hier ist die Smellbar -->
-            <img src="../Img/Smellbar.png" alt="" id="smellbar">
-        
-            <!-- Das hier ist das Inventar -->
-            <div id="inventory">
-                <div class="slot" data-slot="1"></div>
-                <div class="slot" data-slot="2"></div>
-                <div class="slot" data-slot="3"></div>
-                <div class="slot" data-slot="4"></div>
-                <div class="slot" data-slot="5"></div>
-                <div class="slot" data-slot="6"></div>
-                <div class="slot" data-slot="7"></div>
-                <div class="slot" data-slot="8"></div>
-                <div class="slot" data-slot="9"></div>
-                <div class="slot" data-slot="10"></div>
-            </div>
+    <!-- Das hier ist die Smellbar -->
+    <img src="../Img/Smellbar.png" alt="" id="smellbar">
 
-            <!-- Die drei unteren Habe ich einfach übernommen aus dem tutorial deswegen
+    <!-- Das hier ist das Inventar -->
+    <div id="inventory">
+        <div class="slot" data-slot="1"></div>
+        <div class="slot" data-slot="2"></div>
+        <div class="slot" data-slot="3"></div>
+        <div class="slot" data-slot="4"></div>
+        <div class="slot" data-slot="5"></div>
+        <div class="slot" data-slot="6"></div>
+        <div class="slot" data-slot="7"></div>
+        <div class="slot" data-slot="8"></div>
+        <div class="slot" data-slot="9"></div>
+        <div class="slot" data-slot="10"></div>
+    </div>
+
+    <!-- Die drei unteren Habe ich einfach übernommen aus dem tutorial deswegen
              passt dass css zu dem Noch nicht so ganz Perfekt
              Wird aber bald Gefixed -->
 
-            <!-- Das hier ist der Shop Container -->
-            <div id="shop-container">
-                <div class="shop-header">
-                    <img src="../Img/Shop.png" alt="Shop Logo" class="shop-logo">
-                    <div class="shop-tabs">
-                        <img src="../Img/Kaufen.png" class="tab-img active" alt="Kaufen">
-                        <img src="../Img/Verkaufen.png" class="tab-img" alt="Verkaufen">
+    <!-- Das hier ist der Shop Container -->
+    <div id="shop-container">
+        <div class="shop-header">
+            <img src="../Img/Shop.png" alt="Shop Logo" class="shop-logo">
+            <div class="shop-tabs">
+                <img src="../Img/Kaufen.png" class="tab-img active" alt="Kaufen">
+                <img src="../Img/Verkaufen.png" class="tab-img" alt="Verkaufen">
+            </div>
+        </div>
+
+        <div class="shop-content">
+            <div class="shop-level-row">
+                <div class="level-assets">
+                    <div class="level-details">
+                        <img src="../Img/Stufe1.png" class="asset-label">
+                        <img src="../Img/1000Coins.png" class="asset-coins">
                     </div>
+                    <img src="../Img/Schlüssel.png" class="asset-lock">
                 </div>
+                <div class="item-placeholder">Hier kommen die Items hin.</div>
+            </div>
 
-                <div class="shop-content">
-                    <div class="shop-level-row">
-                        <div class="level-assets">
-                            <div class="level-details">
-                                <img src="../Img/Stufe1.png" class="asset-label">
-                                <img src="../Img/1000Coins.png" class="asset-coins">
-                            </div>
-                            <img src="../Img/Schlüssel.png" class="asset-lock">
-                        </div>
-                        <div class="item-placeholder">Hier kommen die Items hin.</div>
+            <div class="shop-level-row">
+                <div class="level-assets">
+                    <div class="level-details">
+                        <img src="../Img/Stufe2.png" class="asset-label">
+                        <img src="../Img/3000Coins.png" class="asset-coins">
                     </div>
-
-                    <div class="shop-level-row">
-                        <div class="level-assets">
-                            <div class="level-details">
-                                <img src="../Img/Stufe2.png" class="asset-label">
-                                <img src="../Img/3000Coins.png" class="asset-coins">
-                            </div>
-                            <img src="../Img/Schlüssel.png" class="asset-lock">
-                        </div>
-                        <div class="item-placeholder">Hier kommen die Items hin.</div>
-                    </div>
-
-                    <div class="shop-level-row">
-                        <div class="level-assets">
-                            <div class="level-details">
-                                <img src="../Img/Stufe3.png" class="asset-label">
-                                <img src="../Img/5000Coins.png" class="asset-coins">
-                            </div>
-                            <img src="../Img/Schlüssel.png" class="asset-lock">
-                        </div>
-                        <div class="item-placeholder">Hier kommen die Items hin.</div>
-                    </div>
+                    <img src="../Img/Schlüssel.png" class="asset-lock">
                 </div>
-            </div>
-            
-            <!-- Das hier ist der Sell-Screen -->
-            <div id="sell-screen" style="display: none;">
-                <img src="../Img/Willst du kaufen.png" id="willstVerkaufen" alt="">
-                <img src="../Img/Nein Kaufen.png" id="neinKaufen" alt="">
-                <img src="../Img/Ja Kaufen.png" id="jaKaufen" alt="">
+                <div class="item-placeholder">Hier kommen die Items hin.</div>
             </div>
 
-            <!-- Das hier ist der Sold-Screen -->
-            <div id="sold-screen" style="display: none;">
-                <img src="../Img/Verkauft screen.png" id="VerkauftLogo" alt="">
-                <img src="../Img/Zurück zum Spiel.png" id="zrk" alt="">
+            <div class="shop-level-row">
+                <div class="level-assets">
+                    <div class="level-details">
+                        <img src="../Img/Stufe3.png" class="asset-label">
+                        <img src="../Img/5000Coins.png" class="asset-coins">
+                    </div>
+                    <img src="../Img/Schlüssel.png" class="asset-lock">
+                </div>
+                <div class="item-placeholder">Hier kommen die Items hin.</div>
             </div>
+        </div>
+    </div>
+
+    <!-- Das hier ist der Sell-Screen -->
+    <div id="sell-screen" style="display: none;">
+        <img src="../Img/Willst du kaufen.png" id="willstVerkaufen" alt="">
+        <img src="../Img/Nein Kaufen.png" id="neinKaufen" alt="">
+        <img src="../Img/Ja Kaufen.png" id="jaKaufen" alt="">
+    </div>
+
+    <!-- Das hier ist der Sold-Screen -->
+    <div id="sold-screen" style="display: none;">
+        <img src="../Img/Verkauft screen.png" id="VerkauftLogo" alt="">
+        <img src="../Img/Zurück zum Spiel.png" id="zrk" alt="">
+    </div>
 
 </body>
+
 </html>
