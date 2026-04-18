@@ -6,7 +6,6 @@ const neinBtn = document.getElementById('neinKaufen');
 const jaBtn = document.getElementById('jaKaufen');
 const zrkBtn = document.getElementById('zrk');
 
-// Die Elemente, die verschwinden sollen:
 const spielflaeche = document.getElementById('spielflaeche');
 const smellbar = document.getElementById('smellbar');
 const inventory = document.getElementById('inventory');
