@@ -22,7 +22,7 @@ html, body {
     position: absolute;
     z-index: 100;
     left: 40%;
-    top: 30%;
+    top: 20%;
 }
 
 #smellbar {
@@ -134,4 +134,45 @@ html, body {
     transform: scale(1.05); 
     transition: all 0.3s ease-in-out;
     background-color: rgba(255, 215, 0, 0.2);
+}
+
+/*==============================================
+============= Html Inventar design =============
+==============================================*/
+#inventory {
+    position: absolute;
+    bottom: 10px;
+    right: 5%; 
+    left: auto;
+    transform: none; 
+    display: flex;
+    gap: 6px;
+    background: rgba(62, 39, 35, 0.8);
+    padding: 10px;
+    border: 3px solid #5d4037;
+    border-radius: 12px;
+    z-index: 1000;
+}
+
+.slot {
+    width: 55px; 
+    height: 55px;
+    background: #8d6e63;
+    border: 2px solid #3e2723;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.slot:hover {
+    transform: scale(1.05);
+    background: #a1887f;
+}
+
+.slot img {
+    width: 75%;
+    height: auto;
 }
