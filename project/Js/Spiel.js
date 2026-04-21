@@ -1,4 +1,3 @@
-
 /* =========================
    ELEMENTS
 ========================= */
@@ -15,6 +14,7 @@ const spielflaeche = document.getElementById('spielflaeche');
 const smellbar = document.getElementById('smellbar');
 const inventory = document.getElementById('inventory');
 const coinDisplay = document.getElementById('coin-count');
+const locks = document.querySelectorAll(".asset-lock");
 
 /* =========================
    GAME STATE
@@ -27,7 +27,7 @@ let selectedItem = null;
 let inventoryData = {};
 
 /* =========================
-   SHOP DATA (from JSON)
+   SHOP DATA 
 ========================= */
 
 const shopData = {
@@ -41,48 +41,81 @@ const shopData = {
     ],
 
     stage1: [
-        { name: "cheese", price: 100, sell: 160, unlock: 1000, img: "../Img/Shop/Stage1/cheese.png" },
-        { name: "milk", price: 90, sell: 140, unlock: 1000, img: "../Img/Shop/Stage1/milk.png" },
-        { name: "cleanmist", price: 120, sell: 0, unlock: 1000, img: "../Img/Shop/Stage1/cleanmist.png" },
-        { name: "bioboost", price: 140, sell: 0, unlock: 1000, img: "../Img/Shop/Stage1/bioboost.png" },
-        { name: "decayx", price: 160, sell: 0, unlock: 1000, img: "../Img/Shop/Stage1/decayx.png" },
-        { name: "odorblock", price: 110, sell: 0, unlock: 1000, img: "../Img/Shop/Stage1/odorblock.png" }
+        { name: "cheese", price: 100, sell: 160, img: "../Img/Shop/Stage1/cheese.png" },
+        { name: "milk", price: 90, sell: 140, img: "../Img/Shop/Stage1/milk.png" },
+        { name: "cleanmist", price: 120, sell: 0, img: "../Img/Shop/Stage1/cleanmist.png" },
+        { name: "bioboost", price: 140, sell: 0, img: "../Img/Shop/Stage1/bioboost.png" },
+        { name: "decayx", price: 160, sell: 0, img: "../Img/Shop/Stage1/decayx.png" },
+        { name: "odorblock", price: 110, sell: 0, img: "../Img/Shop/Stage1/odorblock.png" }
     ],
 
     stage2: [
-        { name: "bread_advanced", price: 200, sell: 300, unlock: 3000, img: "../Img/Shop/Stage2/bread_advanced.png" },
-        { name: "meat", price: 220, sell: 320, unlock: 3000, img: "../Img/Shop/Stage2/meat.png" },
-        { name: "jogurt", price: 180, sell: 260, unlock: 3000, img: "../Img/Shop/Stage2/jogurt.png" },
-        { name: "soup", price: 190, sell: 270, unlock: 3000, img: "../Img/Shop/Stage2/soup.png" },
-        { name: "chronobio", price: 250, sell: 0, unlock: 3000, img: "../Img/Shop/Stage2/chronobio.png" },
-        { name: "moldshift", price: 240, sell: 0, unlock: 3000, img: "../Img/Shop/Stage2/moldshift.png" }
+        { name: "bread_advanced", price: 200, sell: 300, img: "../Img/Shop/Stage2/bread_advanced.png" },
+        { name: "meat", price: 220, sell: 320, img: "../Img/Shop/Stage2/meat.png" },
+        { name: "jogurt", price: 180, sell: 260, img: "../Img/Shop/Stage2/jogurt.png" },
+        { name: "soup", price: 190, sell: 270, img: "../Img/Shop/Stage2/soup.png" },
+        { name: "chronobio", price: 250, sell: 0, img: "../Img/Shop/Stage2/chronobio.png" },
+        { name: "moldshift", price: 240, sell: 0, img: "../Img/Shop/Stage2/moldshift.png" }
     ],
 
     stage3: [
-        { name: "meat_mutated", price: 400, sell: 600, unlock: 5000, img: "../Img/Shop/Stage3/meat_mutated.png" },
-        { name: "cheese_mutated", price: 420, sell: 650, unlock: 5000, img: "../Img/Shop/Stage3/cheese_mutated.png" },
-        { name: "plaguenova", price: 500, sell: 800, unlock: 5000, img: "../Img/Shop/Stage3/plaguenova.png" },
-        { name: "biocollapse", price: 550, sell: 850, unlock: 5000, img: "../Img/Shop/Stage3/biocollapse.png" },
-        { name: "purezone", price: 450, sell: 700, unlock: 5000, img: "../Img/Shop/Stage3/purezone.png" },
-        { name: "zerosmell", price: 480, sell: 750, unlock: 5000, img: "../Img/Shop/Stage3/zerosmell.png" }
+        { name: "meat_mutated", price: 400, sell: 600, img: "../Img/Shop/Stage3/meat_mutated.png" },
+        { name: "cheese_mutated", price: 420, sell: 650, img: "../Img/Shop/Stage3/cheese_mutated.png" },
+        { name: "plaguenova", price: 500, sell: 800, img: "../Img/Shop/Stage3/plaguenova.png" },
+        { name: "biocollapse", price: 550, sell: 850, img: "../Img/Shop/Stage3/biocollapse.png" },
+        { name: "purezone", price: 450, sell: 700, img: "../Img/Shop/Stage3/purezone.png" },
+        { name: "zerosmell", price: 480, sell: 750, img: "../Img/Shop/Stage3/zerosmell.png" }
     ]
 };
 
 /* =========================
-   INIT GAME
+   INIT
 ========================= */
 
 function initGame() {
-
     loadStartItems();
     renderInventory();
     renderShop();
     updateCoins();
-    checkShopUnlocks();
+    smellbar.style.display = "none";
 }
 
 /* =========================
-   START ITEMS → INVENTORY
+   SHOP UNLOCK 
+========================= */
+
+for (let i = 0; i < locks.length; i++) {
+
+    locks[i].onclick = function () {
+
+        let stage = i + 1;
+
+        if (stage == 1 && coins >= 1000) {
+            coins -= 1000;
+            shopLevel = 1;
+        }
+
+        else if (stage == 2 && coins >= 3000 && shopLevel >= 1) {
+            coins -= 3000;
+            shopLevel = 2;
+        }
+
+        else if (stage == 3 && coins >= 5000 && shopLevel >= 2) {
+            coins -= 5000;
+            shopLevel = 3;
+        }
+
+        updateCoins();
+        renderShop();
+
+        if (shopLevel >= 1) {
+            smellbar.style.display = "block";
+        }
+    };
+}
+
+/* =========================
+   START ITEMS
 ========================= */
 
 function loadStartItems() {
@@ -90,7 +123,6 @@ function loadStartItems() {
     let items = shopData.start;
 
     for (let i = 0; i < items.length; i++) {
-
         let item = items[i];
 
         inventoryData[item.name] = {
@@ -109,32 +141,6 @@ function updateCoins() {
 }
 
 /* =========================
-   SHOP UNLOCK LOGIC
-========================= */
-
-function checkShopUnlocks() {
-
-    if (coins >= 5000) {
-        shopLevel = 3;
-    }
-    else if (coins >= 3000) {
-        shopLevel = 2;
-    }
-    else if (coins >= 1000) {
-        shopLevel = 1;
-    }
-    else {
-        shopLevel = 0;
-    }
-
-    if (shopLevel >= 1) {
-        smellbar.style.display = "block";
-    }
-
-    renderShop();
-}
-
-/* =========================
    SHOP RENDER
 ========================= */
 
@@ -148,23 +154,16 @@ function renderShop() {
         let box = placeholders[i];
         box.innerHTML = "";
 
-        let items = shopData[stages[i]];
+        if (shopLevel < i + 1) {
+            box.innerHTML = "🔒";
+            continue;
+        }
 
-        let container = document.createElement("div");
-        container.style.display = "grid";
-        container.style.gridTemplateColumns = "repeat(3, 1fr)";
-        container.style.gap = "10px";
+        let items = shopData[stages[i]];
 
         for (let j = 0; j < items.length; j++) {
 
             let item = items[j];
-
-            if (item.unlock != null) {
-
-                if (shopLevel < (item.unlock / 1000)) {
-                    continue;
-                }
-            }
 
             let div = document.createElement("div");
 
@@ -177,28 +176,24 @@ function renderShop() {
                 buyItem(item);
             };
 
-            container.appendChild(div);
+            box.appendChild(div);
         }
-
-        box.appendChild(container);
     }
 }
 
 /* =========================
-   BUY ITEM
+   BUY FIX
 ========================= */
 
 function buyItem(item) {
 
     if (coins >= item.price) {
 
-        coins = coins - item.price;
+        coins -= item.price;
 
-        selectedItem = item;
+        addToInventory(item); 
 
         updateCoins();
-
-        checkShopUnlocks();
     }
 }
 
@@ -213,7 +208,7 @@ function addToInventory(item) {
     }
 
     if (inventoryData[item.name].count < 10) {
-        inventoryData[item.name].count = inventoryData[item.name].count + 1;
+        inventoryData[item.name].count++;
     }
 
     renderInventory();
@@ -243,7 +238,6 @@ function renderInventory() {
         count.style.bottom = "0";
         count.style.right = "2px";
         count.style.color = "white";
-        count.style.fontSize = "12px";
 
         slot.appendChild(img);
         slot.appendChild(count);
@@ -257,7 +251,7 @@ function renderInventory() {
 }
 
 /* =========================
-   GRID SYSTEM
+   GRID 
 ========================= */
 
 if (grid) {
@@ -271,18 +265,14 @@ if (grid) {
 
             let img = cell.querySelector("img");
 
-            // PLACE
             if (img == null) {
 
                 if (selectedItem != null) {
 
                     let name = selectedItem.name;
 
-                    if (inventoryData[name]) {
-
-                        if (inventoryData[name].count > 0) {
-                            inventoryData[name].count = inventoryData[name].count - 1;
-                        }
+                    if (inventoryData[name] && inventoryData[name].count > 0) {
+                        inventoryData[name].count--;
                     }
 
                     renderInventory();
@@ -295,34 +285,29 @@ if (grid) {
 
                     cell.appendChild(plant);
 
-                    let item = selectedItem;
-                    selectedItem = null;
+                    let growTime = selectedItem.growTime || 5000;
 
                     setTimeout(function () {
                         plant.dataset.ready = "true";
-                    }, item.growTime);
+                    }, growTime);
+
+                    selectedItem = null;
                 }
             }
 
-            // HARVEST
-            if (img != null) {
+            if (img != null && img.dataset.ready == "true") {
 
-                if (img.dataset.ready == "true") {
+                coins += Number(img.dataset.sell);
+                updateCoins();
 
-                    coins = coins + Number(img.dataset.sell);
+                let name = img.dataset.name;
 
-                    updateCoins();
-
-                    let name = img.dataset.name;
-
-                    if (inventoryData[name]) {
-                        inventoryData[name].count = inventoryData[name].count + 1;
-                    }
-
-                    cell.innerHTML = "";
-
-                    renderInventory();
+                if (inventoryData[name]) {
+                    inventoryData[name].count++;
                 }
+
+                cell.innerHTML = "";
+                renderInventory();
             }
         };
 
@@ -331,67 +316,48 @@ if (grid) {
 }
 
 /* =========================
-   UI EVENTS (UNCHANGED)
+   UI EVENTS 
 ========================= */
 
 if (sellTab) {
-
     sellTab.onclick = function () {
-
-        shopContainer.style.display = "none";
-        spielflaeche.style.display = "none";
-
-        if (shopLevel >= 1) {
-            smellbar.style.display = "block";
-        }
-
-        inventory.style.display = "none";
-        sellScreen.style.display = "block";
+        shopContainer.style.display = 'none';
+        spielflaeche.style.display = 'none';
+        smellbar.style.display = 'none';
+        inventory.style.display = 'none';
+        sellScreen.style.display = 'block';
     };
 }
 
 if (neinBtn) {
-
     neinBtn.onclick = function () {
-
-        sellScreen.style.display = "none";
-        shopContainer.style.display = "flex";
-        spielflaeche.style.display = "block";
-
-        if (shopLevel >= 1) {
-            smellbar.style.display = "block";
-        }
-
-        inventory.style.display = "flex";
+        sellScreen.style.display = 'none';
+        shopContainer.style.display = 'flex';
+        spielflaeche.style.display = 'block';
+        smellbar.style.display = shopLevel >= 1 ? 'block' : 'none';
+        inventory.style.display = 'flex';
     };
 }
 
 if (jaBtn) {
-
     jaBtn.onclick = function () {
-        sellScreen.style.display = "none";
-        soldScreen.style.display = "block";
+        sellScreen.style.display = 'none';
+        soldScreen.style.display = 'block';
     };
 }
 
 if (zrkBtn) {
-
     zrkBtn.onclick = function () {
-
-        soldScreen.style.display = "none";
-        shopContainer.style.display = "flex";
-        spielflaeche.style.display = "block";
-
-        if (shopLevel >= 1) {
-            smellbar.style.display = "block";
-        }
-
-        inventory.style.display = "flex";
+        soldScreen.style.display = 'none';
+        shopContainer.style.display = 'flex';
+        spielflaeche.style.display = 'block';
+        smellbar.style.display = shopLevel >= 1 ? 'block' : 'none';
+        inventory.style.display = 'flex';
     };
 }
 
 /* =========================
-   START GAME
+   START
 ========================= */
 
 initGame();
