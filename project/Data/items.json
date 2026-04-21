@@ -1,0 +1,28 @@
+{
+  "stage1": [
+    { "name": "cheese", "price": 50, "img": "../Img/Shop/Start/cheese.png" },
+    { "name": "milk", "price": 40, "img": "../Img/Shop/Start/milk.png" },
+    { "name": "cleanmist", "price": 100, "img": "../Img/Shop/Stage1/cleanmist.png" },
+    { "name": "bioboost", "price": 120, "img": "../Img/Shop/Stage1/bioboost.png" },
+    { "name": "decayx", "price": 150, "img": "../Img/Shop/Stage1/decayx.png" },
+    { "name": "freshmist", "price": 80, "img": "../Img/Shop/Stage1/freshmist.png" }
+  ],
+
+  "stage2": [
+    { "name": "meat", "price": 200, "img": "../Img/Shop/Stage2/meat.png" },
+    { "name": "soup", "price": 180, "img": "../Img/Shop/Stage2/soup.png" },
+    { "name": "yogurt", "price": 160, "img": "../Img/Shop/Stage2/yogurt.png" },
+    { "name": "bread_advanced", "price": 220, "img": "../Img/Shop/Stage2/bread_advanced.png" },
+    { "name": "moldshift", "price": 250, "img": "../Img/Shop/Stage2/moldshift.png" },
+    { "name": "chronobio", "price": 300, "img": "../Img/Shop/Stage2/chronobio.png" }
+  ],
+
+  "stage3": [
+    { "name": "cheese_mutated", "price": 400, "img": "../Img/Shop/Stage3/cheese_mutated.png" },
+    { "name": "meat_mutated", "price": 450, "img": "../Img/Shop/Stage3/meat_mutated.png" },
+    { "name": "plaguenova", "price": 500, "img": "../Img/Shop/Stage3/plaguenova.png" },
+    { "name": "biocollapse", "price": 550, "img": "../Img/Shop/Stage3/biocollapse.png" },
+    { "name": "purezone", "price": 400, "img": "../Img/Shop/Stage3/purezone.png" },
+    { "name": "zerosmell", "price": 450, "img": "../Img/Shop/Stage3/zerosmell.png" }
+  ]
+}
