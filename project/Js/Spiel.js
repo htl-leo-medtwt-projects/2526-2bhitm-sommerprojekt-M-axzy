@@ -21,8 +21,10 @@ const locks = document.querySelectorAll(".asset-lock");
 ========================= */
 
 let coins = 1000;
-let shopLevel = 0;
 let selectedItem = null;
+
+// 🔥 NEU: Jede Stage einzeln speichern
+let unlockedStages = [false, false, false];
 
 let inventoryData = {};
 
@@ -81,35 +83,29 @@ function initGame() {
 }
 
 /* =========================
-   SHOP UNLOCK 
+   SHOP UNLOCK (FIXED)
 ========================= */
 
 for (let i = 0; i < locks.length; i++) {
 
     locks[i].onclick = function () {
 
-        let stage = i + 1;
+        let prices = [1000, 3000, 5000];
 
-        if (stage == 1 && coins >= 1000) {
-            coins -= 1000;
-            shopLevel = 1;
-        }
+        if (!unlockedStages[i] && coins >= prices[i]) {
 
-        else if (stage == 2 && coins >= 3000 && shopLevel >= 1) {
-            coins -= 3000;
-            shopLevel = 2;
-        }
+            coins -= prices[i];
+            unlockedStages[i] = true;
 
-        else if (stage == 3 && coins >= 5000 && shopLevel >= 2) {
-            coins -= 5000;
-            shopLevel = 3;
-        }
+            locks[i].style.display = "none";
 
-        updateCoins();
-        renderShop();
+            updateCoins();
+            renderShop();
 
-        if (shopLevel >= 1) {
             smellbar.style.display = "block";
+
+        } else if (!unlockedStages[i]) {
+            alert("Nicht genug Coins!");
         }
     };
 }
@@ -154,7 +150,7 @@ function renderShop() {
         let box = placeholders[i];
         box.innerHTML = "";
 
-        if (shopLevel < i + 1) {
+        if (!unlockedStages[i]) {
             box.innerHTML = "🔒";
             continue;
         }
@@ -182,7 +178,7 @@ function renderShop() {
 }
 
 /* =========================
-   BUY FIX
+   BUY
 ========================= */
 
 function buyItem(item) {
@@ -191,7 +187,7 @@ function buyItem(item) {
 
         coins -= item.price;
 
-        addToInventory(item); 
+        addToInventory(item);
 
         updateCoins();
     }
@@ -251,7 +247,7 @@ function renderInventory() {
 }
 
 /* =========================
-   GRID 
+   GRID + GROW SYSTEM
 ========================= */
 
 if (grid) {
@@ -279,6 +275,25 @@ if (grid) {
 
                     let plant = document.createElement("img");
                     plant.src = selectedItem.img;
+
+                    // 🌱 OPACITY START
+                    plant.style.opacity = 0;
+                    plant.style.transition = "opacity 0.1s linear";
+
+                    let duration = 60000;
+                    let interval = 100;
+                    let steps = duration / interval;
+                    let current = 0;
+
+                    let grow = setInterval(() => {
+                        current++;
+                        plant.style.opacity = current / steps;
+
+                        if (current >= steps) {
+                            clearInterval(grow);
+                            plant.style.opacity = 1;
+                        }
+                    }, interval);
 
                     plant.dataset.sell = selectedItem.sell;
                     plant.dataset.name = selectedItem.name;
@@ -316,7 +331,7 @@ if (grid) {
 }
 
 /* =========================
-   UI EVENTS 
+   UI EVENTS (NICHT VERÄNDERT)
 ========================= */
 
 if (sellTab) {
@@ -334,7 +349,7 @@ if (neinBtn) {
         sellScreen.style.display = 'none';
         shopContainer.style.display = 'flex';
         spielflaeche.style.display = 'block';
-        smellbar.style.display = shopLevel >= 1 ? 'block' : 'none';
+        smellbar.style.display = 'block';
         inventory.style.display = 'flex';
     };
 }
@@ -351,7 +366,7 @@ if (zrkBtn) {
         soldScreen.style.display = 'none';
         shopContainer.style.display = 'flex';
         spielflaeche.style.display = 'block';
-        smellbar.style.display = shopLevel >= 1 ? 'block' : 'none';
+        smellbar.style.display = 'block';
         inventory.style.display = 'flex';
     };
 }
