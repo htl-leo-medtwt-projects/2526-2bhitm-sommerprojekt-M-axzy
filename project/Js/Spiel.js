@@ -23,10 +23,10 @@ const locks = document.querySelectorAll(".asset-lock");
 let coins = 1000;
 let selectedItem = null;
 
-// 🔥 NEU: Jede Stage einzeln speichern
 let unlockedStages = [false, false, false];
 
-let inventoryData = {};
+let seedInventory = {};
+let harvestInventory = {};
 
 /* =========================
    SHOP DATA 
@@ -83,7 +83,7 @@ function initGame() {
 }
 
 /* =========================
-   SHOP UNLOCK (FIXED)
+   SHOP UNLOCK
 ========================= */
 
 for (let i = 0; i < locks.length; i++) {
@@ -121,7 +121,7 @@ function loadStartItems() {
     for (let i = 0; i < items.length; i++) {
         let item = items[i];
 
-        inventoryData[item.name] = {
+        seedInventory[item.name] = {
             count: 1,
             data: item
         };
@@ -163,10 +163,7 @@ function renderShop() {
 
             let div = document.createElement("div");
 
-            div.innerHTML = `
-                <img src="${item.img}" style="width:50px;">
-                <p>${item.price}</p>
-            `;
+            div.innerHTML = `<img src="${item.img}" style="width:50px;"><p>${item.price}</p>`;
 
             div.onclick = function () {
                 buyItem(item);
@@ -186,61 +183,118 @@ function buyItem(item) {
     if (coins >= item.price) {
 
         coins -= item.price;
-
-        addToInventory(item);
-
+        addSeed(item);
         updateCoins();
     }
 }
 
 /* =========================
-   INVENTORY
+   INVENTORY SYSTEM (6 + 6)
 ========================= */
 
-function addToInventory(item) {
+function addSeed(item) {
 
-    if (!inventoryData[item.name]) {
-        inventoryData[item.name] = { count: 0, data: item };
+    if (!seedInventory[item.name]) {
+        seedInventory[item.name] = { count: 0, data: item };
     }
 
-    if (inventoryData[item.name].count < 10) {
-        inventoryData[item.name].count++;
-    }
-
+    seedInventory[item.name].count++;
     renderInventory();
+}
+
+function addHarvest(item) {
+
+    if (!harvestInventory[item.name]) {
+        harvestInventory[item.name] = { count: 0, data: item };
+    }
+
+    harvestInventory[item.name].count++;
+    renderInventory();
+}
+
+/* CLEAN EMPTY ITEMS */
+function cleanInventory() {
+
+    for (let key in seedInventory) {
+        if (seedInventory[key].count <= 0) {
+            delete seedInventory[key];
+        }
+    }
+
+    for (let key in harvestInventory) {
+        if (harvestInventory[key].count <= 0) {
+            delete harvestInventory[key];
+        }
+    }
 }
 
 function renderInventory() {
 
+    cleanInventory();
+
     inventory.innerHTML = "";
 
-    for (let key in inventoryData) {
+    let seedItems = Object.values(seedInventory);
+    let harvestItems = Object.values(harvestInventory);
 
-        let item = inventoryData[key];
-
-        if (item.count <= 0) continue;
+    for (let i = 0; i < 6; i++) {
 
         let slot = document.createElement("div");
         slot.classList.add("slot");
-        slot.style.position = "relative";
 
-        let img = document.createElement("img");
-        img.src = item.data.img;
-        img.style.width = "40px";
+        let item = seedItems[i];
 
-        let count = document.createElement("span");
-        count.innerText = item.count;
-        count.style.position = "absolute";
-        count.style.bottom = "0";
-        count.style.right = "2px";
-        count.style.color = "white";
+        if (item && item.count > 0) {
 
-        slot.appendChild(img);
-        slot.appendChild(count);
+            let img = document.createElement("img");
+            img.src = item.data.img;
+            img.style.width = "40px";
 
-        slot.onclick = function () {
-            selectedItem = item.data;
-        };
+            let count = document.createElement("span");
+            count.innerText = item.count;
+            count.style.position = "absolute";
+            count.style.bottom = "0";
+            count.style.right = "2px";
+            count.style.color = "white";
+
+            slot.appendChild(img);
+            slot.appendChild(count);
+
+            slot.onclick = function () {
+                selectedItem = item.data;
+            };
+        }
+
+        inventory.appendChild(slot);
+    }
+
+    let gap = document.createElement("div");
+    gap.style.width = "25px";
+    inventory.appendChild(gap);
+
+    for (let i = 0; i < 6; i++) {
+
+        let slot = document.createElement("div");
+        slot.classList.add("slot");
+
+        let item = harvestItems[i];
+
+        if (item && item.count > 0) {
+
+            let img = document.createElement("img");
+            img.src = item.data.img;
+            img.style.width = "40px";
+
+            let count = document.createElement("span");
+            count.innerText = item.count;
+            count.style.position = "absolute";
+            count.style.bottom = "0";
+            count.style.right = "2px";
+            count.style.color = "white";
+
+            slot.appendChild(img);
+            slot.appendChild(count);
+        }
 
         inventory.appendChild(slot);
     }
@@ -261,68 +315,56 @@ if (grid) {
 
             let img = cell.querySelector("img");
 
-            if (img == null) {
+            if (!img && selectedItem) {
 
-                if (selectedItem != null) {
+                let name = selectedItem.name;
 
-                    let name = selectedItem.name;
-
-                    if (inventoryData[name] && inventoryData[name].count > 0) {
-                        inventoryData[name].count--;
-                    }
-
-                    renderInventory();
-
-                    let plant = document.createElement("img");
-                    plant.src = selectedItem.img;
-
-                    // 🌱 OPACITY START
-                    plant.style.opacity = 0;
-                    plant.style.transition = "opacity 0.1s linear";
-
-                    let duration = 60000;
-                    let interval = 100;
-                    let steps = duration / interval;
-                    let current = 0;
-
-                    let grow = setInterval(() => {
-                        current++;
-                        plant.style.opacity = current / steps;
-
-                        if (current >= steps) {
-                            clearInterval(grow);
-                            plant.style.opacity = 1;
-                        }
-                    }, interval);
-
-                    plant.dataset.sell = selectedItem.sell;
-                    plant.dataset.name = selectedItem.name;
-
-                    cell.appendChild(plant);
-
-                    let growTime = selectedItem.growTime || 5000;
-
-                    setTimeout(function () {
-                        plant.dataset.ready = "true";
-                    }, growTime);
-
-                    selectedItem = null;
+                if (seedInventory[name] && seedInventory[name].count > 0) {
+                    seedInventory[name].count--;
                 }
+
+                renderInventory();
+
+                let plant = document.createElement("img");
+                plant.src = selectedItem.img;
+
+                plant.style.opacity = 0;
+                plant.style.transition = "opacity 0.1s linear";
+
+                let duration = 60000;
+                let interval = 100;
+                let steps = duration / interval;
+                let current = 0;
+
+                let grow = setInterval(() => {
+                    current++;
+                    plant.style.opacity = current / steps;
+
+                    if (current >= steps) {
+                        clearInterval(grow);
+                        plant.style.opacity = 1;
+                    }
+                }, interval);
+
+                plant.dataset.sell = selectedItem.sell;
+                plant.dataset.name = selectedItem.name;
+
+                cell.appendChild(plant);
+
+                setTimeout(() => {
+                    plant.dataset.ready = "true";
+                }, selectedItem.growTime || 5000);
+
+                selectedItem = null;
             }
 
-            if (img != null && img.dataset.ready == "true") {
-
-                coins += Number(img.dataset.sell);
-                updateCoins();
+            if (img && img.dataset.ready === "true") {
 
                 let name = img.dataset.name;
 
-                if (inventoryData[name]) {
-                    inventoryData[name].count++;
-                }
+                addHarvest({ name, img: img.src, sell: Number(img.dataset.sell) });
 
                 cell.innerHTML = "";
-                renderInventory();
             }
         };
 
@@ -331,7 +373,7 @@ if (grid) {
 }
 
 /* =========================
-   UI EVENTS (NICHT VERÄNDERT)
+   UI EVENTS
 ========================= */
 
 if (sellTab) {

@@ -310,6 +310,10 @@ body {
     z-index: 1000;
 }
 
+.inv-gap {
+    width: 25px;
+}
+
 .slot {
     width: 55px;
     height: 40px;
