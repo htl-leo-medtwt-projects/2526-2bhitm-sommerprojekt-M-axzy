@@ -14,6 +14,7 @@ const spielflaeche = document.getElementById('spielflaeche');
 const smellbar = document.getElementById('smellbar');
 const inventory = document.getElementById('inventory');
 const coinDisplay = document.getElementById('coin-count');
+const coinsContainer = document.getElementById('coins-container');
 const locks = document.querySelectorAll(".asset-lock");
 
 /* =========================
@@ -34,12 +35,12 @@ let harvestInventory = {};
 
 const shopData = {
     start: [
-        { name: "bread", price: 0, sell: 80, growTime: 5000, img: "../Img/Shop/Start/bread.png" },
-        { name: "strawberry", price: 0, sell: 60, growTime: 5000, img: "../Img/Shop/Start/strawberry.png" },
-        { name: "chicken", price: 0, sell: 110, growTime: 5000, img: "../Img/Shop/Start/chicken.png" },
-        { name: "carrot", price: 0, sell: 50, growTime: 5000, img: "../Img/Shop/Start/carrot.png" },
-        { name: "potato", price: 0, sell: 55, growTime: 5000, img: "../Img/Shop/Start/potato.png" },
-        { name: "wheat", price: 0, sell: 40, growTime: 5000, img: "../Img/Shop/Start/wheat.png" }
+        { name: "bread", price: 0, sell: 80, growTime: 60000, img: "../Img/Shop/Start/bread.png" },
+        { name: "strawberry", price: 0, sell: 60, growTime: 60000, img: "../Img/Shop/Start/strawberry.png" },
+        { name: "chicken", price: 0, sell: 110, growTime: 60000, img: "../Img/Shop/Start/chicken.png" },
+        { name: "carrot", price: 0, sell: 50, growTime: 60000, img: "../Img/Shop/Start/carrot.png" },
+        { name: "potato", price: 0, sell: 55, growTime: 60000, img: "../Img/Shop/Start/potato.png" },
+        { name: "wheat", price: 0, sell: 40, growTime: 60000, img: "../Img/Shop/Start/wheat.png" }
     ],
 
     stage1: [
@@ -74,12 +75,17 @@ const shopData = {
    INIT
 ========================= */
 
+function updateHUD() {
+    const hasStage = unlockedStages.some(v => v === true);
+    smellbar.style.display = hasStage ? "block" : "none";
+}
+
 function initGame() {
     loadStartItems();
     renderInventory();
     renderShop();
     updateCoins();
-    smellbar.style.display = "none";
+    updateHUD();
 }
 
 /* =========================
@@ -101,8 +107,7 @@ for (let i = 0; i < locks.length; i++) {
 
             updateCoins();
             renderShop();
-
-            smellbar.style.display = "block";
+            updateHUD();
 
         } else if (!unlockedStages[i]) {
             alert("Nicht genug Coins!");
@@ -181,7 +186,6 @@ function renderShop() {
 function buyItem(item) {
 
     if (coins >= item.price) {
-
         coins -= item.price;
         addSeed(item);
         updateCoins();
@@ -212,19 +216,14 @@ function addHarvest(item) {
     renderInventory();
 }
 
-/* CLEAN EMPTY ITEMS */
 function cleanInventory() {
 
     for (let key in seedInventory) {
-        if (seedInventory[key].count <= 0) {
-            delete seedInventory[key];
-        }
+        if (seedInventory[key].count <= 0) delete seedInventory[key];
     }
 
     for (let key in harvestInventory) {
-        if (harvestInventory[key].count <= 0) {
-            delete harvestInventory[key];
-        }
+        if (harvestInventory[key].count <= 0) delete harvestInventory[key];
     }
 }
 
@@ -327,9 +326,7 @@ if (grid) {
 
                 let plant = document.createElement("img");
                 plant.src = selectedItem.img;
-
                 plant.style.opacity = 0;
-                plant.style.transition = "opacity 0.1s linear";
 
                 let duration = 60000;
                 let interval = 100;
@@ -343,6 +340,7 @@ if (grid) {
                     if (current >= steps) {
                         clearInterval(grow);
                         plant.style.opacity = 1;
+                        plant.dataset.ready = "true";
                     }
                 }, interval);
 
@@ -350,10 +348,6 @@ if (grid) {
                 plant.dataset.name = selectedItem.name;
 
                 cell.appendChild(plant);
-
-                setTimeout(() => {
-                    plant.dataset.ready = "true";
-                }, selectedItem.growTime || 5000);
 
                 selectedItem = null;
             }
@@ -382,6 +376,7 @@ if (sellTab) {
         spielflaeche.style.display = 'none';
         smellbar.style.display = 'none';
         inventory.style.display = 'none';
+        coinsContainer.style.display = 'none';
         sellScreen.style.display = 'block';
     };
 }
@@ -391,13 +386,30 @@ if (neinBtn) {
         sellScreen.style.display = 'none';
         shopContainer.style.display = 'flex';
         spielflaeche.style.display = 'block';
-        smellbar.style.display = 'block';
         inventory.style.display = 'flex';
+        coinsContainer.style.display = 'block';
+        updateHUD();
     };
 }
 
 if (jaBtn) {
     jaBtn.onclick = function () {
+
+        let total = 0;
+
+        for (let key in harvestInventory) {
+            let item = harvestInventory[key];
+            if (item && item.count > 0) {
+                total += item.count * (item.data.sell || 0);
+            }
+        }
+
+        coins += total;
+        updateCoins();
+
+        harvestInventory = {};
+        renderInventory();
+
         sellScreen.style.display = 'none';
         soldScreen.style.display = 'block';
     };
@@ -405,11 +417,14 @@ if (jaBtn) {
 
 if (zrkBtn) {
     zrkBtn.onclick = function () {
+
         soldScreen.style.display = 'none';
         shopContainer.style.display = 'flex';
         spielflaeche.style.display = 'block';
-        smellbar.style.display = 'block';
         inventory.style.display = 'flex';
+        coinsContainer.style.display = 'block';
+
+        updateHUD();
     };
 }
 
