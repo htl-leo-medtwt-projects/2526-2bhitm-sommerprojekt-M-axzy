@@ -298,7 +298,7 @@ body {
 #inventory {
     position: absolute;
     bottom: 30px;
-    right: 5%;
+    right: 0%;
     left: auto;
     transform: none;
     display: flex;
