@@ -372,23 +372,16 @@ if (grid) {
 
 if (sellTab) {
     sellTab.onclick = function () {
-        shopContainer.style.display = 'none';
-        spielflaeche.style.display = 'none';
-        smellbar.style.display = 'none';
-        inventory.style.display = 'none';
-        coinsContainer.style.display = 'none';
-        sellScreen.style.display = 'block';
+
+        document.getElementById("sell-screen").style.display = "block";
+        document.getElementById("sold-screen").style.display = "none";
     };
 }
 
 if (neinBtn) {
     neinBtn.onclick = function () {
-        sellScreen.style.display = 'none';
-        shopContainer.style.display = 'flex';
-        spielflaeche.style.display = 'block';
-        inventory.style.display = 'flex';
-        coinsContainer.style.display = 'block';
-        updateHUD();
+
+        document.getElementById("sell-screen").style.display = "none";
     };
 }
 
@@ -410,21 +403,15 @@ if (jaBtn) {
         harvestInventory = {};
         renderInventory();
 
-        sellScreen.style.display = 'none';
-        soldScreen.style.display = 'block';
+        document.getElementById("sell-screen").style.display = "none";
+        document.getElementById("sold-screen").style.display = "block";
     };
 }
 
 if (zrkBtn) {
     zrkBtn.onclick = function () {
 
-        soldScreen.style.display = 'none';
-        shopContainer.style.display = 'flex';
-        spielflaeche.style.display = 'block';
-        inventory.style.display = 'flex';
-        coinsContainer.style.display = 'block';
-
-        updateHUD();
+        document.getElementById("sold-screen").style.display = "none";
     };
 }
 
