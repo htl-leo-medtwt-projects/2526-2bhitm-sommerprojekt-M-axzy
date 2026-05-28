@@ -18,27 +18,6 @@ body {
 ============== Html Spiel design ===============
 ==============================================*/
 #spielflaeche {
-    height: 70vh;
-    width: 70vw;
-    position: absolute;
-    z-index: 100;
-    left: 40%;
-    top: 60%;
-}
-
-#smellbar {
-    height: 60vh;
-    width: 60vw;
-    position: absolute;
-    bottom: 63%;
-    right: 3%;
-    z-index: 105;
-}
-
-/*==============================================
-============ Html Spielgrid design =============
-==============================================*/
-#spielflaeche {
     height: 75vh;
     aspect-ratio: 1.1 / 1;
     position: absolute;
@@ -48,6 +27,24 @@ body {
     transform: translate(-50%, -50%);
 }
 
+#smellbar {
+    height: 60vh;
+    width: 60vw;
+    position: absolute;
+    bottom: 63%;
+    right: 3%;
+    z-index: 105;
+    display: none;
+}
+
+#smellbar.grey {
+    filter: grayscale(100%);
+    opacity: 0.6;
+}
+
+/*==============================================
+============ Html Spielgrid design =============
+==============================================*/
 #spielflaeche img {
     width: 100%;
     height: 100%;
@@ -248,10 +245,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-
     background: rgba(0,0,0,0.85);
     z-index: 500;
-
     display: none;
 }
 
@@ -294,10 +289,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-
     background: rgba(0,0,0,0.85);
     z-index: 600;
-
     display: none;
 }
 
