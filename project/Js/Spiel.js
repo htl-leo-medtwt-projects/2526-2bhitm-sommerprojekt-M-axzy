@@ -334,14 +334,20 @@ if (grid) {
                 let current = 0;
 
                 let grow = setInterval(() => {
+
                     current++;
                     plant.style.opacity = current / steps;
 
                     if (current >= steps) {
+
                         clearInterval(grow);
+
                         plant.style.opacity = 1;
                         plant.dataset.ready = "true";
+
+                        cell.classList.add("ready");
                     }
+
                 }, interval);
 
                 plant.dataset.sell = selectedItem.sell;
@@ -356,9 +362,14 @@ if (grid) {
 
                 let name = img.dataset.name;
 
-                addHarvest({ name, img: img.src, sell: Number(img.dataset.sell) });
+                addHarvest({
+                    name,
+                    img: img.src,
+                    sell: Number(img.dataset.sell)
+                });
 
                 cell.innerHTML = "";
+                cell.classList.remove("ready");
             }
         };
 
@@ -372,7 +383,6 @@ if (grid) {
 
 if (sellTab) {
     sellTab.onclick = function () {
-
         document.getElementById("sell-screen").style.display = "block";
         document.getElementById("sold-screen").style.display = "none";
     };
@@ -380,7 +390,6 @@ if (sellTab) {
 
 if (neinBtn) {
     neinBtn.onclick = function () {
-
         document.getElementById("sell-screen").style.display = "none";
     };
 }
@@ -410,7 +419,6 @@ if (jaBtn) {
 
 if (zrkBtn) {
     zrkBtn.onclick = function () {
-
         document.getElementById("sold-screen").style.display = "none";
     };
 }
