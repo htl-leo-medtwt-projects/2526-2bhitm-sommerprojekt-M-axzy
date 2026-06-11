@@ -37,7 +37,7 @@ tl.from("#Play-Button", {
     y: 800,
     opacity: 0,
     duration: 1.4,
-    ease: "power4.out"
+    ease: "back.out(1.7)"
 }, "-=0.6");
 
 let buttonInfo = document.getElementById('Info');
