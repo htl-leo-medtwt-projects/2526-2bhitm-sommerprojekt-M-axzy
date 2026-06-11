@@ -18,7 +18,7 @@ body {
 ============== Html Spiel design ===============
 ==============================================*/
 #spielflaeche {
-    height: 75vh;
+    height: 95vh;
     aspect-ratio: 1.1 / 1;
     position: absolute;
     z-index: 100;
@@ -53,10 +53,10 @@ body {
 
 #grid-overlay {
     position: absolute;
-    top: 16%;
-    right: 28.7%;
-    width: 46%;
-    height: 63%;
+    top: 26.5%;
+    right: 26.7%;
+    width: 50%;
+    height: 45%;
     display: grid;
     grid-template-columns: repeat(9, 1fr);
     grid-template-rows: repeat(8, 1fr);
