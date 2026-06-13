@@ -49,7 +49,6 @@ const shopData = {
         { name: "cleanmist", price: 120, sell: 0, img: "../Img/Shop/Stage1/cleanmist.png" },
         { name: "bioboost", price: 140, sell: 0, img: "../Img/Shop/Stage1/bioboost.png" },
         { name: "decayx", price: 160, sell: 0, img: "../Img/Shop/Stage1/decayx.png" },
-        { name: "odorblock", price: 110, sell: 0, img: "../Img/Shop/Stage1/odorblock.png" }
     ],
 
     stage2: [
@@ -193,7 +192,7 @@ function buyItem(item) {
 }
 
 /* =========================
-   INVENTORY SYSTEM (6 + 6)
+   INVENTORY
 ========================= */
 
 function addSeed(item) {
@@ -300,7 +299,52 @@ function renderInventory() {
 }
 
 /* =========================
-   GRID + GROW SYSTEM
+   🌱 + ☣️ MOLD SYSTEM
+========================= */
+
+function startMoldSystem(cell, plant) {
+
+    plant.dataset.mold = 0;
+
+    setTimeout(() => {
+
+        let moldInterval = setInterval(() => {
+
+            if (!cell.contains(plant)) {
+                clearInterval(moldInterval);
+                return;
+            }
+
+            let mold = Number(plant.dataset.mold);
+            mold += 5;
+
+            if (mold > 100) mold = 100;
+
+            plant.dataset.mold = mold;
+
+            // 🟩 READY BORDER WEG sobald Schimmel startet
+            if (mold > 0 && cell.classList.contains("ready")) {
+                cell.classList.remove("ready");
+            }
+
+            if (mold >= 100) {
+
+                if (!cell.querySelector(".mold-cloud")) {
+                    const cloud = document.createElement("div");
+                    cloud.classList.add("mold-cloud");
+                    cell.appendChild(cloud);
+                }
+
+                clearInterval(moldInterval);
+            }
+
+        }, 1000);
+
+    }, 15000);
+}
+
+/* =========================
+   GRID
 ========================= */
 
 if (grid) {
@@ -346,6 +390,8 @@ if (grid) {
                         plant.dataset.ready = "true";
 
                         cell.classList.add("ready");
+
+                        startMoldSystem(cell, plant);
                     }
 
                 }, interval);

@@ -383,3 +383,75 @@ body {
     color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
+
+/*==============================================
+================ SCHIMMEL WOLKE ================
+==============================================*/
+
+.mold-cloud {
+    position: absolute;
+    inset: -25%;
+    pointer-events: none;
+    z-index: 200;
+
+    background: radial-gradient(
+        circle,
+        rgba(0, 255, 0, 0.55) 0%,
+        rgba(0, 255, 0, 0.25) 40%,
+        transparent 80%
+    );
+
+    filter: blur(7px);
+    border-radius: 50%;
+
+    animation: moldFloat 2.5s infinite ease-in-out;
+}
+
+.mold-cloud::before,
+.mold-cloud::after {
+    content: "";
+    position: absolute;
+    inset: 10%;
+    background: radial-gradient(
+        circle,
+        rgba(0, 255, 0, 0.35),
+        transparent 70%
+    );
+    border-radius: 50%;
+    animation: moldPulse 3s infinite ease-in-out;
+}
+
+/* Animation */
+@keyframes moldFloat {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.5;
+    }
+    50% {
+        transform: translateY(-6px) scale(1.15);
+        opacity: 0.9;
+    }
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: 0.5;
+    }
+}
+
+@keyframes moldPulse {
+    0% {
+        transform: scale(0.9);
+        opacity: 0.3;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(0.9);
+        opacity: 0.3;
+    }
+}
+
+.mold-max {
+    filter: drop-shadow(0 0 10px lime) drop-shadow(0 0 20px green);
+}
