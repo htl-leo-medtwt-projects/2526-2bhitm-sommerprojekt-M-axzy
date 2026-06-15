@@ -29,6 +29,10 @@ let unlockedStages = [false, false, false];
 let seedInventory = {};
 let harvestInventory = {};
 
+// 🌫️ SMELL SYSTEM
+let smellLevel = 0;
+let targetSmell = 0;
+
 /* =========================
    SHOP DATA 
 ========================= */
@@ -86,7 +90,7 @@ function initGame() {
     updateCoins();
     updateHUD();
 
-    setInterval(updateSmellBar, 500);
+    updateSmell(); // 🌫️ START SMELL LOOP
 }
 
 /* =========================
@@ -324,63 +328,46 @@ function startMoldSystem(cell, plant) {
 
             plant.dataset.mold = mold;
 
-            if (cell.classList.contains("ready")) {
-                cell.classList.remove("ready");
-            }
-
-            if (mold >= 100) {
-
-                if (!cell.querySelector(".mold-cloud")) {
-                    const cloud = document.createElement("div");
-                    cloud.classList.add("mold-cloud");
-                    cell.appendChild(cloud);
-                }
-
-                clearInterval(moldInterval);
-            }
-
         }, 1000);
 
     }, 15000);
 }
 
 /* =========================
-   SMELLBAR UPDATE
+   🌫️ SMELL SYSTEM
 ========================= */
 
-function updateSmellBar() {
+function updateSmell() {
 
-    let totalMold = 0;
-    let plantCount = 0;
+    targetSmell = 0;
 
-    document.querySelectorAll(".grid-field").forEach(cell => {
+    const cells = document.querySelectorAll(".grid-field");
 
-        let plant = cell.querySelector("img");
-        if (!plant) return;
+    cells.forEach(cell => {
 
-        let mold = Number(plant.dataset.mold || 0);
+        let img = cell.querySelector("img");
+        if (!img) return;
 
-        if (mold > 0) {
-            totalMold += mold;
-            plantCount++;
-        }
+        let mold = Number(img.dataset.mold || 0);
+        targetSmell += mold;
     });
 
-    let percent = 0;
+    if (targetSmell > 100) targetSmell = 100;
 
-    if (plantCount > 0) {
-        percent = totalMold / (plantCount * 100);
-    }
+    smellLevel += (targetSmell - smellLevel) * 0.05;
 
-    percent = Math.min(percent, 1);
+    renderSmellBar();
 
-    if (smellbar.style.display === "block") {
+    requestAnimationFrame(updateSmell);
+}
 
-        let gray = 1 - percent;
+function renderSmellBar() {
 
-        smellbar.style.filter = `grayscale(${gray})`;
-        smellbar.style.opacity = 0.5 + percent * 0.5;
-    }
+    const percent = smellLevel;
+
+    smellbar.style.display = "block";
+    smellbar.style.filter = `grayscale(${100 - percent}%)`;
+    smellbar.style.opacity = 0.4 + (percent / 100) * 0.6;
 }
 
 /* =========================
@@ -428,6 +415,8 @@ if (grid) {
 
                         plant.style.opacity = 1;
                         plant.dataset.ready = "true";
+
+                        plant.dataset.mold = 0; // IMPORTANT
 
                         cell.classList.add("ready");
 
