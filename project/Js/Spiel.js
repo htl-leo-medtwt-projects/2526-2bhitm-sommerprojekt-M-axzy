@@ -30,12 +30,6 @@ let seedInventory = {};
 let harvestInventory = {};
 
 /* =========================
-   SMELL SYSTEM
-========================= */
-
-let smell = 0;
-
-/* =========================
    SHOP DATA 
 ========================= */
 
@@ -83,38 +77,7 @@ const shopData = {
 function updateHUD() {
     const hasStage = unlockedStages.some(v => v === true);
     smellbar.style.display = hasStage ? "block" : "none";
-
-    // Smellbar startet grau
-    smellbar.style.filter = "grayscale(100%)";
 }
-
-/* =========================
-   SMELL UPDATE (NEU)
-========================= */
-
-function updateSmell() {
-
-    let total = 0;
-
-    document.querySelectorAll(".grid-field img").forEach(img => {
-
-        if (!img.dataset.mold) return;
-
-        total += Number(img.dataset.mold);
-    });
-
-    // 0 - 100 Smell
-    smell = Math.min(100, total / 200);
-
-    // je mehr Smell desto weniger grau
-    smellbar.style.filter = `grayscale(${100 - smell}%)`;
-}
-
-setInterval(updateSmell, 500);
-
-/* =========================
-   GAME INIT
-========================= */
 
 function initGame() {
     loadStartItems();
@@ -122,6 +85,8 @@ function initGame() {
     renderShop();
     updateCoins();
     updateHUD();
+
+    setInterval(updateSmellBar, 500);
 }
 
 /* =========================
@@ -359,7 +324,7 @@ function startMoldSystem(cell, plant) {
 
             plant.dataset.mold = mold;
 
-            if (mold > 0 && cell.classList.contains("ready")) {
+            if (cell.classList.contains("ready")) {
                 cell.classList.remove("ready");
             }
 
@@ -377,6 +342,45 @@ function startMoldSystem(cell, plant) {
         }, 1000);
 
     }, 15000);
+}
+
+/* =========================
+   SMELLBAR UPDATE
+========================= */
+
+function updateSmellBar() {
+
+    let totalMold = 0;
+    let plantCount = 0;
+
+    document.querySelectorAll(".grid-field").forEach(cell => {
+
+        let plant = cell.querySelector("img");
+        if (!plant) return;
+
+        let mold = Number(plant.dataset.mold || 0);
+
+        if (mold > 0) {
+            totalMold += mold;
+            plantCount++;
+        }
+    });
+
+    let percent = 0;
+
+    if (plantCount > 0) {
+        percent = totalMold / (plantCount * 100);
+    }
+
+    percent = Math.min(percent, 1);
+
+    if (smellbar.style.display === "block") {
+
+        let gray = 1 - percent;
+
+        smellbar.style.filter = `grayscale(${gray})`;
+        smellbar.style.opacity = 0.5 + percent * 0.5;
+    }
 }
 
 /* =========================
@@ -452,8 +456,6 @@ if (grid) {
 
                 cell.innerHTML = "";
                 cell.classList.remove("ready");
-                cell.classList.remove("warning");
-                cell.classList.remove("moldy");
             }
         };
 
