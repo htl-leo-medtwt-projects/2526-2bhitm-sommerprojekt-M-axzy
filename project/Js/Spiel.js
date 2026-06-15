@@ -30,6 +30,12 @@ let seedInventory = {};
 let harvestInventory = {};
 
 /* =========================
+   SMELL SYSTEM
+========================= */
+
+let smell = 0;
+
+/* =========================
    SHOP DATA 
 ========================= */
 
@@ -77,7 +83,38 @@ const shopData = {
 function updateHUD() {
     const hasStage = unlockedStages.some(v => v === true);
     smellbar.style.display = hasStage ? "block" : "none";
+
+    // Smellbar startet grau
+    smellbar.style.filter = "grayscale(100%)";
 }
+
+/* =========================
+   SMELL UPDATE (NEU)
+========================= */
+
+function updateSmell() {
+
+    let total = 0;
+
+    document.querySelectorAll(".grid-field img").forEach(img => {
+
+        if (!img.dataset.mold) return;
+
+        total += Number(img.dataset.mold);
+    });
+
+    // 0 - 100 Smell
+    smell = Math.min(100, total / 200);
+
+    // je mehr Smell desto weniger grau
+    smellbar.style.filter = `grayscale(${100 - smell}%)`;
+}
+
+setInterval(updateSmell, 500);
+
+/* =========================
+   GAME INIT
+========================= */
 
 function initGame() {
     loadStartItems();
@@ -322,7 +359,6 @@ function startMoldSystem(cell, plant) {
 
             plant.dataset.mold = mold;
 
-            // 🟩 READY BORDER WEG sobald Schimmel startet
             if (mold > 0 && cell.classList.contains("ready")) {
                 cell.classList.remove("ready");
             }
@@ -416,6 +452,8 @@ if (grid) {
 
                 cell.innerHTML = "";
                 cell.classList.remove("ready");
+                cell.classList.remove("warning");
+                cell.classList.remove("moldy");
             }
         };
 

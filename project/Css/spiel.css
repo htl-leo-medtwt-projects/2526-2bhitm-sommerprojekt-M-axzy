@@ -27,6 +27,7 @@ body {
     transform: translate(-50%, -50%);
 }
 
+/* 🌫 SMELLBAR (nur Basis, Grau wird per JS gesteuert) */
 #smellbar {
     height: 60vh;
     width: 60vw;
@@ -35,11 +36,15 @@ body {
     right: 3%;
     z-index: 105;
     display: none;
-}
-
-#smellbar.grey {
     filter: grayscale(100%);
     opacity: 0.6;
+    transition: filter 0.5s ease, opacity 0.5s ease;
+}
+
+/* optional wenn aktiviert */
+#smellbar.active {
+    opacity: 1;
+    filter: grayscale(100%);
 }
 
 /*==============================================
@@ -91,6 +96,22 @@ body {
         inset 0 0 20px limegreen,
         0 0 20px limegreen;
     border: 2px solid limegreen;
+}
+
+/* 🟥 WARNING PHASE (2 Sekunden vor Schimmel) */
+.grid-field.warning {
+    background: rgba(255, 0, 0, 0.25);
+    box-shadow:
+        inset 0 0 20px red,
+        0 0 20px red;
+    border: 2px solid red;
+    animation: warningPulse 0.5s infinite;
+}
+
+@keyframes warningPulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
 }
 
 /*==============================================
@@ -421,7 +442,6 @@ body {
     animation: moldPulse 3s infinite ease-in-out;
 }
 
-/* Animation */
 @keyframes moldFloat {
     0% {
         transform: translateY(0) scale(1);
