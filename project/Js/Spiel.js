@@ -29,10 +29,6 @@ let unlockedStages = [false, false, false];
 let seedInventory = {};
 let harvestInventory = {};
 
-// 🌫️ SMELL SYSTEM
-let smellLevel = 0;
-let targetSmell = 0;
-
 /* =========================
    SHOP DATA 
 ========================= */
@@ -90,7 +86,7 @@ function initGame() {
     updateCoins();
     updateHUD();
 
-    updateSmell(); // 🌫️ START SMELL LOOP
+    setInterval(updateSmellBar, 500);
 }
 
 /* =========================
@@ -314,6 +310,15 @@ function startMoldSystem(cell, plant) {
 
     setTimeout(() => {
 
+        cell.classList.remove("ready");
+        cell.classList.add("warning");
+
+    }, 13000);
+
+    setTimeout(() => {
+
+        cell.classList.remove("warning");
+
         let moldInterval = setInterval(() => {
 
             if (!cell.contains(plant)) {
@@ -328,46 +333,60 @@ function startMoldSystem(cell, plant) {
 
             plant.dataset.mold = mold;
 
+            if (mold >= 100) {
+
+                if (!cell.querySelector(".mold-cloud")) {
+
+                    const cloud = document.createElement("div");
+                    cloud.classList.add("mold-cloud");
+
+                    cell.appendChild(cloud);
+                }
+
+                clearInterval(moldInterval);
+            }
+
         }, 1000);
 
     }, 15000);
 }
-
 /* =========================
-   🌫️ SMELL SYSTEM
+   SMELLBAR UPDATE
 ========================= */
 
-function updateSmell() {
+function updateSmellBar() {
 
-    targetSmell = 0;
+    let totalMold = 0;
+    let plantCount = 0;
 
-    const cells = document.querySelectorAll(".grid-field");
+    document.querySelectorAll(".grid-field").forEach(cell => {
 
-    cells.forEach(cell => {
+        let plant = cell.querySelector("img");
+        if (!plant) return;
 
-        let img = cell.querySelector("img");
-        if (!img) return;
+        let mold = Number(plant.dataset.mold || 0);
 
-        let mold = Number(img.dataset.mold || 0);
-        targetSmell += mold;
+        if (mold > 0) {
+            totalMold += mold;
+            plantCount++;
+        }
     });
 
-    if (targetSmell > 100) targetSmell = 100;
+    let percent = 0;
 
-    smellLevel += (targetSmell - smellLevel) * 0.05;
+    if (plantCount > 0) {
+        percent = totalMold / (plantCount * 100);
+    }
 
-    renderSmellBar();
+    percent = Math.min(percent, 1);
 
-    requestAnimationFrame(updateSmell);
-}
+    if (smellbar.style.display === "block") {
 
-function renderSmellBar() {
+        let gray = 1 - percent;
 
-    const percent = smellLevel;
-
-    smellbar.style.display = "block";
-    smellbar.style.filter = `grayscale(${100 - percent}%)`;
-    smellbar.style.opacity = 0.4 + (percent / 100) * 0.6;
+        smellbar.style.filter = `grayscale(${gray})`;
+        smellbar.style.opacity = 0.5 + percent * 0.5;
+    }
 }
 
 /* =========================
@@ -415,8 +434,6 @@ if (grid) {
 
                         plant.style.opacity = 1;
                         plant.dataset.ready = "true";
-
-                        plant.dataset.mold = 0; // IMPORTANT
 
                         cell.classList.add("ready");
 
