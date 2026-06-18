@@ -2,20 +2,19 @@
    ELEMENTS
 ========================= */
 
-const grid = document.getElementById('grid-overlay');
-const shopContainer = document.getElementById('shop-container');
-const sellTab = document.querySelector('.shop-tabs img[alt="Verkaufen"]');
-const sellScreen = document.getElementById('sell-screen');
-const soldScreen = document.getElementById('sold-screen');
-const neinBtn = document.getElementById('neinKaufen');
-const jaBtn = document.getElementById('jaKaufen');
-const zrkBtn = document.getElementById('zrk');
-const spielflaeche = document.getElementById('spielflaeche');
-const smellbar = document.getElementById('smellbar');
-const inventory = document.getElementById('inventory');
-const coinDisplay = document.getElementById('coin-count');
-const coinsContainer = document.getElementById('coins-container');
-const locks = document.querySelectorAll(".asset-lock");
+let grid = document.getElementById('grid-overlay');
+let shopContainer = document.getElementById('shop-container');
+let sellTab = document.querySelector('.shop-tabs img[alt="Verkaufen"]');
+let sellScreen = document.getElementById('sell-screen');
+let soldScreen = document.getElementById('sold-screen');
+let neinBtn = document.getElementById('neinKaufen');
+let jaBtn = document.getElementById('jaKaufen');
+let zrkBtn = document.getElementById('zrk');
+let spielflaeche = document.getElementById('spielflaeche');
+let inventory = document.getElementById('inventory');
+let coinDisplay = document.getElementById('coin-count');
+let coinsContainer = document.getElementById('coins-container');
+let locks = document.querySelectorAll(".asset-lock");
 
 /* =========================
    GAME STATE
@@ -33,7 +32,7 @@ let harvestInventory = {};
    SHOP DATA 
 ========================= */
 
-const shopData = {
+let shopData = {
     start: [
         { name: "bread", price: 0, sell: 80, growTime: 60000, img: "../Img/Shop/Start/bread.png" },
         { name: "strawberry", price: 0, sell: 60, growTime: 60000, img: "../Img/Shop/Start/strawberry.png" },
@@ -48,7 +47,7 @@ const shopData = {
         { name: "milk", price: 90, sell: 140, img: "../Img/Shop/Stage1/milk.png" },
         { name: "cleanmist", price: 120, sell: 0, img: "../Img/Shop/Stage1/cleanmist.png" },
         { name: "bioboost", price: 140, sell: 0, img: "../Img/Shop/Stage1/bioboost.png" },
-        { name: "decayx", price: 160, sell: 0, img: "../Img/Shop/Stage1/decayx.png" },
+        { name: "decayx", price: 160, sell: 0, img: "../Img/Shop/Stage1/decayx.png" }
     ],
 
     stage2: [
@@ -71,22 +70,46 @@ const shopData = {
 };
 
 /* =========================
-   INIT
+   SPRAY SYSTEM (ADDED)
 ========================= */
 
-function updateHUD() {
-    const hasStage = unlockedStages.some(v => v === true);
-    smellbar.style.display = hasStage ? "block" : "none";
+function applySpray(item) {
+
+    let plants = document.querySelectorAll(".grid-field img");
+
+    plants.forEach(p => {
+
+        let mold = Number(p.dataset.mold || 0);
+
+        if (item.name === "cleanmist") p.dataset.mold = 0;
+
+        if (item.name === "bioboost") p.dataset.mold = Math.min(100, mold + 25);
+
+        if (item.name === "decayx") p.dataset.mold = Math.min(100, mold + 50);
+
+        if (item.name === "chronobio") p.dataset.speed = "slow";
+
+        if (item.name === "moldshift") p.dataset.mold = 100;
+
+        if (item.name === "plaguenova") p.dataset.mold = Math.min(100, mold + 50);
+
+        if (item.name === "biocollapse") p.dataset.mold = 100;
+
+        if (item.name === "purezone") p.dataset.mold = 0;
+
+        if (item.name === "zerosmell") p.dataset.mold = 0;
+    });
 }
+
+/* =========================
+   INIT
+========================= */
 
 function initGame() {
     loadStartItems();
     renderInventory();
     renderShop();
     updateCoins();
-    updateHUD();
-
-    setInterval(updateSmellBar, 500);
 }
 
 /* =========================
@@ -108,9 +131,7 @@ for (let i = 0; i < locks.length; i++) {
 
             updateCoins();
             renderShop();
-            updateHUD();
-
-        } else if (!unlockedStages[i]) {
+        } else {
             alert("Nicht genug Coins!");
         }
     };
@@ -121,16 +142,8 @@ for (let i = 0; i < locks.length; i++) {
 ========================= */
 
 function loadStartItems() {
-
-    let items = shopData.start;
-
-    for (let i = 0; i < items.length; i++) {
-        let item = items[i];
-
-        seedInventory[item.name] = {
-            count: 1,
-            data: item
-        };
+    for (let item of shopData.start) {
+        seedInventory[item.name] = { count: 1, data: item };
     }
 }
 
@@ -148,7 +161,7 @@ function updateCoins() {
 
 function renderShop() {
 
-    const placeholders = document.querySelectorAll(".item-placeholder");
+    let placeholders = document.querySelectorAll(".item-placeholder");
     let stages = ["stage1", "stage2", "stage3"];
 
     for (let i = 0; i < placeholders.length; i++) {
@@ -161,20 +174,12 @@ function renderShop() {
             continue;
         }
 
-        let items = shopData[stages[i]];
-
-        for (let j = 0; j < items.length; j++) {
-
-            let item = items[j];
+        for (let item of shopData[stages[i]]) {
 
             let div = document.createElement("div");
-
             div.innerHTML = `<img src="${item.img}" style="width:50px;"><p>${item.price}</p>`;
 
-            div.onclick = function () {
-                buyItem(item);
-            };
-
+            div.onclick = () => buyItem(item);
             box.appendChild(div);
         }
     }
@@ -185,7 +190,6 @@ function renderShop() {
 ========================= */
 
 function buyItem(item) {
-
     if (coins >= item.price) {
         coins -= item.price;
         addSeed(item);
@@ -198,24 +202,24 @@ function buyItem(item) {
 ========================= */
 
 function addSeed(item) {
-
     if (!seedInventory[item.name]) {
         seedInventory[item.name] = { count: 0, data: item };
     }
-
     seedInventory[item.name].count++;
     renderInventory();
 }
 
 function addHarvest(item) {
-
     if (!harvestInventory[item.name]) {
         harvestInventory[item.name] = { count: 0, data: item };
     }
-
     harvestInventory[item.name].count++;
     renderInventory();
 }
+
+/* =========================
+   CLEAN
+========================= */
 
 function cleanInventory() {
 
@@ -227,6 +231,10 @@ function cleanInventory() {
         if (harvestInventory[key].count <= 0) delete harvestInventory[key];
     }
 }
+
+/* =========================
+   INVENTORY RENDER
+========================= */
 
 function renderInventory() {
 
@@ -250,19 +258,9 @@ function renderInventory() {
             img.src = item.data.img;
             img.style.width = "40px";
 
-            let count = document.createElement("span");
-            count.innerText = item.count;
-            count.style.position = "absolute";
-            count.style.bottom = "0";
-            count.style.right = "2px";
-            count.style.color = "white";
+            slot.onclick = () => selectedItem = item.data;
 
             slot.appendChild(img);
-            slot.appendChild(count);
-
-            slot.onclick = function () {
-                selectedItem = item.data;
-            };
         }
 
         inventory.appendChild(slot);
@@ -285,15 +283,7 @@ function renderInventory() {
             img.src = item.data.img;
             img.style.width = "40px";
 
-            let count = document.createElement("span");
-            count.innerText = item.count;
-            count.style.position = "absolute";
-            count.style.bottom = "0";
-            count.style.right = "2px";
-            count.style.color = "white";
-
             slot.appendChild(img);
-            slot.appendChild(count);
         }
 
         inventory.appendChild(slot);
@@ -301,92 +291,62 @@ function renderInventory() {
 }
 
 /* =========================
-   🌱 + ☣️ MOLD SYSTEM
+   PHASE SYSTEM
+========================= */
+
+function startPlantPhases(cell, plant) {
+
+    setTimeout(() => {
+
+        cell.classList.add("warning");
+
+        setTimeout(() => {
+
+            cell.classList.remove("warning");
+
+            if (unlockedStages[0]) {
+                startMoldSystem(cell, plant);
+            }
+
+        }, 2000);
+
+    }, 13000);
+}
+
+/* =========================
+   MOLD SYSTEM
 ========================= */
 
 function startMoldSystem(cell, plant) {
 
+    if (plant.dataset.moldStarted) return;
+    plant.dataset.moldStarted = "true";
+
     plant.dataset.mold = 0;
 
-    setTimeout(() => {
+    let cloud = document.createElement("div");
+    cloud.classList.add("mold-cloud");
+    cloud.style.opacity = 0.05;
+    cell.appendChild(cloud);
 
-        cell.classList.remove("ready");
-        cell.classList.add("warning");
+    let moldInterval = setInterval(() => {
 
-    }, 13000);
-
-    setTimeout(() => {
-
-        cell.classList.remove("warning");
-
-        let moldInterval = setInterval(() => {
-
-            if (!cell.contains(plant)) {
-                clearInterval(moldInterval);
-                return;
-            }
-
-            let mold = Number(plant.dataset.mold);
-            mold += 5;
-
-            if (mold > 100) mold = 100;
-
-            plant.dataset.mold = mold;
-
-            if (mold >= 100) {
-
-                if (!cell.querySelector(".mold-cloud")) {
-
-                    const cloud = document.createElement("div");
-                    cloud.classList.add("mold-cloud");
-
-                    cell.appendChild(cloud);
-                }
-
-                clearInterval(moldInterval);
-            }
-
-        }, 1000);
-
-    }, 15000);
-}
-/* =========================
-   SMELLBAR UPDATE
-========================= */
-
-function updateSmellBar() {
-
-    let totalMold = 0;
-    let plantCount = 0;
-
-    document.querySelectorAll(".grid-field").forEach(cell => {
-
-        let plant = cell.querySelector("img");
-        if (!plant) return;
-
-        let mold = Number(plant.dataset.mold || 0);
-
-        if (mold > 0) {
-            totalMold += mold;
-            plantCount++;
+        if (!cell.contains(plant)) {
+            clearInterval(moldInterval);
+            return;
         }
-    });
 
-    let percent = 0;
+        let mold = Number(plant.dataset.mold);
+        mold += 5;
+        if (mold > 100) mold = 100;
 
-    if (plantCount > 0) {
-        percent = totalMold / (plantCount * 100);
-    }
+        plant.dataset.mold = mold;
 
-    percent = Math.min(percent, 1);
+        cloud.style.opacity = 0.05 + (mold / 100) * 0.95;
 
-    if (smellbar.style.display === "block") {
+        if (mold >= 100) clearInterval(moldInterval);
 
-        let gray = 1 - percent;
-
-        smellbar.style.filter = `grayscale(${gray})`;
-        smellbar.style.opacity = 0.5 + percent * 0.5;
-    }
+    }, 1000);
 }
 
 /* =========================
@@ -404,12 +364,26 @@ if (grid) {
 
             let img = cell.querySelector("img");
 
+            /* 🧪 SPRAY CHECK (ADDED) */
             if (!img && selectedItem) {
 
-                let name = selectedItem.name;
+                if (
+                    selectedItem.name.includes("mist") ||
+                    selectedItem.name.includes("boost") ||
+                    selectedItem.name.includes("decay") ||
+                    selectedItem.name.includes("chronobio") ||
+                    selectedItem.name.includes("mold") ||
+                    selectedItem.name.includes("plague") ||
+                    selectedItem.name.includes("zone")
+                ) {
+                    applySpray(selectedItem);
+                    selectedItem = null;
+                    return;
+                }
 
-                if (seedInventory[name] && seedInventory[name].count > 0) {
-                    seedInventory[name].count--;
+                /* 🌱 PLANT */
+                if (seedInventory[selectedItem.name]?.count > 0) {
+                    seedInventory[selectedItem.name].count--;
                 }
 
                 renderInventory();
@@ -418,10 +392,8 @@ if (grid) {
                 plant.src = selectedItem.img;
                 plant.style.opacity = 0;
 
-                let duration = 60000;
-                let interval = 100;
-                let steps = duration / interval;
                 let current = 0;
+                let steps = 600;
 
                 let grow = setInterval(() => {
 
@@ -429,21 +401,19 @@ if (grid) {
                     plant.style.opacity = current / steps;
 
                     if (current >= steps) {
-
                         clearInterval(grow);
 
-                        plant.style.opacity = 1;
                         plant.dataset.ready = "true";
-
                         cell.classList.add("ready");
 
-                        startMoldSystem(cell, plant);
+                        startPlantPhases(cell, plant);
                     }
 
-                }, interval);
+                }, 100);
 
                 plant.dataset.sell = selectedItem.sell;
                 plant.dataset.name = selectedItem.name;
+                plant.dataset.mold = 0;
 
                 cell.appendChild(plant);
 
@@ -452,10 +422,8 @@ if (grid) {
 
             if (img && img.dataset.ready === "true") {
 
-                let name = img.dataset.name;
-
                 addHarvest({
-                    name,
+                    name: img.dataset.name,
                     img: img.src,
                     sell: Number(img.dataset.sell)
                 });
@@ -474,45 +442,40 @@ if (grid) {
 ========================= */
 
 if (sellTab) {
-    sellTab.onclick = function () {
-        document.getElementById("sell-screen").style.display = "block";
-        document.getElementById("sold-screen").style.display = "none";
+    sellTab.onclick = () => {
+        sellScreen.style.display = "block";
+        soldScreen.style.display = "none";
     };
 }
 
 if (neinBtn) {
-    neinBtn.onclick = function () {
-        document.getElementById("sell-screen").style.display = "none";
-    };
+    neinBtn.onclick = () => sellScreen.style.display = "none";
 }
 
 if (jaBtn) {
-    jaBtn.onclick = function () {
+    jaBtn.onclick = () => {
 
         let total = 0;
 
         for (let key in harvestInventory) {
             let item = harvestInventory[key];
-            if (item && item.count > 0) {
-                total += item.count * (item.data.sell || 0);
-            }
+            total += (item?.count || 0) * (item?.data.sell || 0);
         }
 
         coins += total;
         updateCoins();
 
         harvestInventory = {};
+
         renderInventory();
 
-        document.getElementById("sell-screen").style.display = "none";
-        document.getElementById("sold-screen").style.display = "block";
+        sellScreen.style.display = "none";
+        soldScreen.style.display = "block";
     };
 }
 
 if (zrkBtn) {
-    zrkBtn.onclick = function () {
-        document.getElementById("sold-screen").style.display = "none";
-    };
+    zrkBtn.onclick = () => soldScreen.style.display = "none";
 }
 
 /* =========================
