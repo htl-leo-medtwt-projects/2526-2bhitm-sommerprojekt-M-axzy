@@ -20,7 +20,7 @@ let locks = document.querySelectorAll(".asset-lock");
    GAME STATE
 ========================= */
 
-let coins = 1000;
+let coins = 0;
 let selectedItem = null;
 
 let unlockedStages = [false, false, false];
@@ -143,7 +143,7 @@ for (let i = 0; i < locks.length; i++) {
 
 function loadStartItems() {
     for (let item of shopData.start) {
-        seedInventory[item.name] = { count: 1, data: item };
+        seedInventory[item.name] = { count: 5, data: item };
     }
 }
 
